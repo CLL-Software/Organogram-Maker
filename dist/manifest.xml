@@ -8,7 +8,7 @@
 	<Description DefaultValue="Write your own Excel functions in JavaScript."/>
 	<IconUrl DefaultValue="https://cll-software.github.io/Organogram-Maker/dist/assets/icon-32.png"/>
 	<HighResolutionIconUrl DefaultValue="https://cll-software.github.io/Organogram-Maker/dist/assets/icon-64.png"/>
-	<SupportUrl DefaultValue="https://cll-software.github.io/Organogram-Maker/help"/>
+	<SupportUrl DefaultValue="https://cll-software.github.io/Organogram-Maker/support.html"/>
 	<AppDomains>
 		<AppDomain>https://cll-software.github.io/Organogram-Maker/</AppDomain>
 	</AppDomains>
