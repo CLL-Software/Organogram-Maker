@@ -1,5 +1,5 @@
 Organogram Add-in for Excel
-A custom Office Add-in that generates interactive organizational charts from Excel table data.
+A custom Office Add-in that generates interactive organizational charts from Excel table data. This add-in works seamlessly in Excel for Desktop (Windows/Mac) and Excel on the Web.
 
 Features
 Data-Driven: Generates charts automatically from a specified Excel table (OrgData).
