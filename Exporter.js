@@ -1,5 +1,6 @@
 // Exporter.js
 
+import { drawElbowLines } from "./DrawLines.js";
 import { refresh } from "./InputCaller.js";
 
 // --- HELPER: Fetch and Convert Image to Base64 ---
@@ -41,14 +42,11 @@ export async function exportToPNG() {
 
     // --- 2. EXPORT LOGIC ---
     const organagram = document.getElementById('organagram');
-    // Ensure parent is relative and has dimensions
+    const style = window.getComputedStyle(organagram);
     organagram.style.position = 'relative';
+    drawElbowLines(true);
 
-    // Apply temporary styling directly to children if necessary, 
-    // rather than transforming the parent div.
-    const container = document.getElementById("org-container");
-    const svgLines = document.getElementById("org-lines-svg");
-
+    // 2. Manipulate the SVG transform attribute directly
     // --- 3. RENDER ---
     const pixelRatio = window.devicePixelRatio > 1 ? 5 : 1;
     const canvas = await html2canvas(organagram, {
@@ -73,6 +71,7 @@ export async function exportToPNG() {
     link.download = 'organogram.png';
     link.href = pngUrl;
     link.click();
+    drawElbowLines();
 }
 
 window.exportToPNG = exportToPNG;

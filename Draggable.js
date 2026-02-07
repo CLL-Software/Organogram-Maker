@@ -24,7 +24,7 @@ export function initializeDragging() {
         if (!activeItem) return;
         let deltaX = e.clientX - startMouseX;
         let deltaY = e.clientY - startMouseY;
-        const organagram = document.getElementById('organagram');
+        const organagram = document.getElementById('org-container');
         const transform = getComputedStyle(organagram).transform;
         const isFlippedX = transform.includes('matrix(-1, 0, 0, 1') || transform.includes('scaleX(-1)');
         const isFlippedY = transform.includes('matrix(1, 0, 0, -1') || transform.includes('scaleY(-1)');

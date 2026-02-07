@@ -2,10 +2,10 @@
 
 // Helper function to get the container
 function getContainer() {
-    return document.getElementById("organagram") || document.body;
+    return document.getElementById("org-container") || document.body;
 }
 
-export function drawElbowLines() {
+export function drawElbowLines(png=false) {
     const container = getContainer();
 
     // 1. Check if an old SVG exists
@@ -24,10 +24,8 @@ export function drawElbowLines() {
     svg.id = "org-lines-svg";
     svg.style.position = "absolute";
     svg.style.pointerEvents = "none";
-    svg.style.zIndex = "1";
 
-    // --- KEY CHANGE: Use container dimensions ---
-    const containerRect = container.getBoundingClientRect();
+    // Set dimensions based on scroll size to cover all elements
     const fullWidth = container.scrollWidth;
     const fullHeight = container.scrollHeight;
 
@@ -43,6 +41,9 @@ export function drawElbowLines() {
     // 3. Draw the Elbow Lines
     const boxes = document.querySelectorAll('.org-box');
 
+    // We need the container's position to calculate relative coordinates
+    const containerRect = container.getBoundingClientRect();
+
     boxes.forEach(childEl => {
         const parentId = childEl.getAttribute('value');
         if (!parentId) return;
@@ -53,20 +54,37 @@ export function drawElbowLines() {
         const inputType = childEl.getAttribute('lineInput');
         const outputType = parentEl.getAttribute('lineOutput');
 
+        // [KEY CHANGE]: getBoundingClientRect() returns the visual position,
+        // which includes CSS transforms like scaleX(-1)
         const cRect = childEl.getBoundingClientRect();
         const pRect = parentEl.getBoundingClientRect();
 
         // Coordinates relative to the container origin
-        const startX = (pRect.left + pRect.width / 2) - containerRect.left;
-        const startY = ((pRect.top + pRect.bottom) * 0.5) - containerRect.top;
+        let startX = (pRect.left + pRect.width / 2) - containerRect.left;
+        let startY = ((pRect.top + pRect.bottom) * 0.5) - containerRect.top;
 
-        const endX = (cRect.left + cRect.width / 2) - containerRect.left;
-        const endY = ((cRect.top + cRect.bottom) * 0.5) - containerRect.top;
+        let endX = (cRect.left + cRect.width / 2) - containerRect.left;
+        let endY = ((cRect.top + cRect.bottom) * 0.5) - containerRect.top;
+
+        const organagram = document.getElementById('org-container');
+        const transform = getComputedStyle(organagram).transform;
+        const isFlippedX = transform.includes('matrix(-1, 0, 0, 1') || transform.includes('scaleX(-1)');
+        const isFlippedY = transform.includes('matrix(1, 0, 0, -1') || transform.includes('scaleY(-1)');
+
+        if (png == true) { }
+        else if (isFlippedX) {
+            startX = fullWidth-startX;
+            endX = fullWidth - endX;
+        }
+        else if (isFlippedY) {
+            startY = fullHeight-startY;
+            endY = fullHeight-endY;
+        }
 
 
         let pathData = "";
 
-        // ... (Path logic remains the same, it now uses container-relative coordinates) ...
+        // Path logic
         if (outputType === "bottom" && inputType === "top") {
             const midY = startY + (endY - startY) / 2;
             pathData = `M ${startX} ${startY} V ${midY} H ${endX} V ${endY}`;

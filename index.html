@@ -395,31 +395,31 @@
             // Apply the new flip (this automatically replaces the old one)
             if (desiredFlip === "y") {
                 styleEl.textContent = `
-                                                                    #organagram {
-                                                                        transform: scaleY(-1);
-                                                                        transform-origin: center;
-                                                                    }
-                                                                    .org-box {
-                                                                        transform: scaleY(-1);
-                                                                    }
-                                                                    #org-lines-svg {
-                                                                        transform: scaleY(-1);
-                                                                    }
-                                                                `;
+                        #org-container {
+                            transform: scaleY(-1);
+                            transform-origin: center;
+                        }
+                        .org-box {
+                            transform: scaleY(-1);
+                        }
+                        #org-lines-svg {
+                            transform: scaleY(-1);
+                        }
+                    `;
                 currentFlip = "y";
             } else if (desiredFlip === "x") {
-                styleEl.textContent = `
-                                                                    #organagram {
-                                                                        transform: scaleX(-1);
-                                                                        transform-origin: center;
-                                                                    }
-                                                                    .org-box {
-                                                                        transform: scaleX(-1);
-                                                                    }
-                                                                    #org-lines-svg {
-                                                                        transform: scaleX(-1);
-                                                                    }
-                                                                `;
+            styleEl.textContent = `
+                    #org-container {
+                        transform: scaleX(-1);
+                        transform-origin: center;
+                    }
+                    .org-box {
+                        transform: scaleX(-1);
+                    }
+                    #org-lines-svg {
+                        transform: scaleX(-1);
+                    }
+                `;
                 currentFlip = "x";
             } else {
                 // Fallback: remove everything
@@ -482,12 +482,20 @@
                 // 1. Get the HTML content
                 const orgContent = document.getElementById('organagram').outerHTML;
 
-                // 2. Fetch the CSS content from the file
+                // 2. Fetch the base CSS content from the file
                 const response = await fetch('organogram.css');
                 if (!response.ok) {
                     throw new Error('Could not load organogram.css');
                 }
-                const cssText = await response.text();
+                let cssText = await response.text();
+
+                if (currentFlip) {
+                    const flipStyleEl = document.getElementById('organagram-flip-styles');
+                    if (flipStyleEl) {
+                        cssText += `\n/* Flip Styles */\n${flipStyleEl.textContent}`;
+                    }
+                }
+
                 const cssContent = `<style>\n${cssText}\n</style>`;
 
                 // 3. Define the JS link
@@ -498,7 +506,7 @@
 
                 // 5. Copy to clipboard
                 await navigator.clipboard.writeText(embedCode);
-                alert('Embed code (HTML, CSS, and JS) copied to clipboard!');
+                alert('Embed code (including current orientation) copied to clipboard!');
 
             } catch (err) {
                 console.error('Error generating embed code: ', err);
@@ -507,5 +515,4 @@
         });
     </script>
 </body>
-
 </html>
