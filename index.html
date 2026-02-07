@@ -491,7 +491,7 @@
                 const cssContent = `<style>\n${cssText}\n</style>`;
 
                 // 3. Define the JS link
-                const jsScript = `<script src="https://cll-software.github.io/Organogram-Maker/Draggable.js">`;
+                const jsScript = `<script type="module" src="https://cll-software.github.io/Organogram-Maker/Draggable.js"><\/script>`;
 
                 // 4. Combine everything
                 const embedCode = `${cssContent}\n${orgContent}\n${jsScript}`;
@@ -507,4 +507,5 @@
         });
     </script>
 </body>
+
 </html>
