@@ -367,7 +367,7 @@
         <button onclick="exportToPNG()">Save as PNG</button>
         <button onclick="flip()">Flip Direction</button>
         <button onclick="refresh()">Refresh chart</button>
-        <button onclick="support()">Support £</button>
+        <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="OrganogramMaker" data-color="#5f8099" data-emoji="" data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#ffffff" data-font-color="#ffffff" data-coffee-color="#FFDD00"></script>
         <button id="copyEmbedBtn">Copy Embed Code</button>
     </div>
     <br />
@@ -377,15 +377,8 @@
         <div id="org-container"></div>
     </div>
 
-
     <script>
-        function support() {
-            window.open("https://buymeacoffee.com/organogrammaker");
-        }
-    </script>
-
-    <script>
-        let currentFlip = null; // "x", "y", or null
+        let currentFlip = null;
 
         function flipper() {
             const chartType = document.getElementById('ChartType').value;
@@ -397,18 +390,14 @@
                 document.head.appendChild(styleEl);
             }
 
-            // Determine desired flip based on chart type
             const desiredFlip = chartType === "0" ? "y" :
                 chartType === "1" ? "x" : null;
 
-            // If pressing again on the same flip → remove it
             if (currentFlip === desiredFlip) {
                 styleEl.textContent = '';
                 currentFlip = null;
                 return;
             }
-
-            // Apply the new flip (this automatically replaces the old one)
             if (desiredFlip === "y") {
                 styleEl.textContent = `
                                                             #org-container {
@@ -438,7 +427,6 @@
                                                     `;
                 currentFlip = "x";
             } else {
-                // Fallback: remove everything
                 styleEl.textContent = '';
                 currentFlip = null;
             }
@@ -463,10 +451,7 @@
     <script>
         document.getElementById('copyEmbedBtn').addEventListener('click', async function () {
             try {
-                // 1. Get the HTML content
                 const orgContent = document.getElementById('organagram').outerHTML;
-
-                // 2. Fetch the base CSS content from the file
                 const response = await fetch('organogram.css');
                 if (!response.ok) {
                     throw new Error('Could not load organogram.css');
@@ -482,7 +467,6 @@
 
                 const cssContent = `<style>\n${cssText}\n</style>`;
 
-                // 3. Define the JS link
                 const jsScript = `<script type="module" src="https://cll-software.github.io/Organogram-Maker/Browser/Draggable.js"><\/script>
                                                         <script>
                                                                 window.addEventListener('DOMContentLoaded', () => {
@@ -491,11 +475,7 @@
                                                                 });
                                                         <\/script>`;
 
-
-                // 4. Combine everything
                 const embedCode = `${cssContent}\n${orgContent}\n${jsScript}`;
-
-                // 5. Copy to clipboard
                 await navigator.clipboard.writeText(embedCode);
                 alert('Embed code (including current orientation) copied to clipboard!');
 

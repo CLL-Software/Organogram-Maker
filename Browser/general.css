@@ -24,7 +24,7 @@ button {
     outline: none;
     border-radius: 10px;
     font-weight: bold;
-    margin-top: 10px;
+    height: 100%;
 }
 
     button:hover {
