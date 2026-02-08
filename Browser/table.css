@@ -1,6 +1,5 @@
 /* General table styling */
 .table-wrapper {
-    margin: 0px 0px 0px 50px;
 }
 
 table {
@@ -21,6 +20,11 @@ th, td {
 th {
     background-color: #f4f4f4;
     font-weight: bold;
+    color: #333;
+}
+
+table th:nth-child(-n+4) {
+    color: #741616;
 }
 
 /* Alternate row colors */
@@ -37,7 +41,6 @@ tbody tr:nth-child(even) {
 td[contenteditable="true"] {
     color: #333;
     cursor: text;
-    transition: background-color 0.3s ease;
 }
 
     td[contenteditable="true"]:empty {
@@ -51,16 +54,6 @@ td[contenteditable="true"] {
         max-width: unset;
     }
 
-    /* Hover effect to indicate that the cell is editable */
-    td[contenteditable="true"]:hover {
-        background-color: #f1f1f1;
-        border: 1px solid #ccc;
-    }
-
-    td[contenteditable="true"]:focus:hover {
-        background-color: #e0ffe0;
-        border: 2px solid #4CAF50;
-    }
 
 /* Styling for the entire table */
 table {

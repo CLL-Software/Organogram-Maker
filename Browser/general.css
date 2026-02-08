@@ -1,3 +1,17 @@
+body {
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    background: darkslategrey;
+    color: white;
+    font-family: 'Segoe UI Variable Display';
+    overflow: scroll;
+    min-width: fit-content;
+}
 button {
     background-color: #5f8099;
     color: white;

@@ -38,7 +38,6 @@
 
 
     <div class="table-wrapper">
-        <button class="add-column" onclick="addColumn()">+</button>
         <table id="orgTable" border="1" cellpadding="6" cellspacing="0">
             <tbody>
                 <tr><th contenteditable="false">ID</th><th contenteditable="false">Parent ID</th><th contenteditable="false">Name</th><th contenteditable="false">Colour</th><th contenteditable="true">Image URL</th><th contenteditable="true">Position</th><th contenteditable="true">Area</th><th contenteditable="true">!Responsibility</th></tr>
@@ -222,7 +221,7 @@
                         Sir
                         John Thwaites
                     </td>
-                    <td contenteditable="true">#fffff</td>
+                    <td contenteditable="true">#000000</td>
                     <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/e/e7/SirJohnThwaites.jpg</td>
                     <td contenteditable="true">
                         Chief
@@ -327,34 +326,51 @@
     </div>
     <br />
     <br />
+    <div style="display: grid;grid-template-columns: max-content max-content max-content max-content; gap: 10px; align-items: center;">
+        <label for="rowSelector">Select Row ID: </label>
+        <select id="rowSelector">
+        </select>
+        <button style="margin-top: 0;" onclick="addRow()">Add Row After Selected</button>
+        <button style="margin-top: 0;" onclick="deleteRow()">Delete Selected Row</button>
+        <label for="columnSelector">Select Column: </label>
+        <select id="columnSelector">
+        </select>
+        <button style="margin-top: 0;" onclick="addColumn()">Add Column After Selected</button>
+        <button style="margin-top: 0;" onclick="deleteColumn()">Delete Selected Column</button>
+    </div>
+    <br />
+    <br />
     <h3>Formatting</h3>
     <ul>
-        <li>Items can be dragged into different positions once the graph is loaded.</li>
-        <li>Tip: Press Ctrl and + to zoom in, or Ctrl and − to zoom out.</li>
+        <p>Items can be dragged into different positions by clicking and dragging.</p>
+        <p>Tip: Press Ctrl and + to zoom in, or Ctrl and − to zoom out.</p>
     </ul>
 
-    <button onclick="exportToPNG()">Save as PNG</button>
-    <button onclick="flip()">Flip Direction</button>
-    <button onclick="refresh()">Refresh chart</button>
-    <button onclick="support()">Support $</button>
-    <button id="copyEmbedBtn">Copy Embed Code</button>
+    <div style="display: grid;grid-template-columns: max-content max-content; gap: 10px; align-items: center;">
+        <label for="ChartType">Choose a chart type:</label>
+        <select id="ChartType" name="chartTypes" onchange="refresh()">
+            <option value="0">Vertical</option>
+            <option value="1">Horizontal</option>
+        </select>
 
-    <br /><br />
-    <label for="ChartType">Choose a chart type:</label>
-    <select id="ChartType" name="chartTypes" onchange="refresh()">
-        <option value="0">Vertical</option>
-        <option value="1">Horizontal</option>
-    </select>
-    <br /><br />
+        <label for="LineType">Choose a line type:</label>
+        <select id="LineType" name="lineTypes" onchange="refresh()">
+            <option value="0">Vertical</option>
+            <option value="1">Horizontal</option>
+            <option value="2">Direct</option>
+        </select>
+    </div>
 
-    <label for="LineType">Choose a line type:</label>
-    <select id="LineType" name="lineTypes" onchange="refresh()">
-        <option value="0">Vertical</option>
-        <option value="1">Horizontal</option>
-        <option value="2">Direct</option>
-    </select>
     <br />
 
+    <div style="display: grid; grid-template-columns: max-content max-content max-content max-content max-content; gap: 10px; align-items: center; ">
+        <button onclick="exportToPNG()">Save as PNG</button>
+        <button onclick="flip()">Flip Direction</button>
+        <button onclick="refresh()">Refresh chart</button>
+        <button onclick="support()">Support £</button>
+        <button id="copyEmbedBtn">Copy Embed Code</button>
+    </div>
+    <br />
 
     <div id="organagram">
         <svg id="org-lines-svg"></svg>
@@ -395,31 +411,31 @@
             // Apply the new flip (this automatically replaces the old one)
             if (desiredFlip === "y") {
                 styleEl.textContent = `
-                        #org-container {
-                            transform: scaleY(-1);
-                            transform-origin: center;
-                        }
-                        .org-box {
-                            transform: scaleY(-1);
-                        }
-                        #org-lines-svg {
-                            transform: scaleY(-1);
-                        }
-                    `;
+                                                            #org-container {
+                                                                transform: scaleY(-1);
+                                                                transform-origin: center;
+                                                            }
+                                                            .org-box {
+                                                                transform: scaleY(-1);
+                                                            }
+                                                            #org-lines-svg {
+                                                                transform: scaleY(-1);
+                                                            }
+                                                        `;
                 currentFlip = "y";
             } else if (desiredFlip === "x") {
-            styleEl.textContent = `
-                    #org-container {
-                        transform: scaleX(-1);
-                        transform-origin: center;
-                    }
-                    .org-box {
-                        transform: scaleX(-1);
-                    }
-                    #org-lines-svg {
-                        transform: scaleX(-1);
-                    }
-                `;
+                styleEl.textContent = `
+                                                        #org-container {
+                                                            transform: scaleX(-1);
+                                                            transform-origin: center;
+                                                        }
+                                                        .org-box {
+                                                            transform: scaleX(-1);
+                                                        }
+                                                        #org-lines-svg {
+                                                            transform: scaleX(-1);
+                                                        }
+                                                    `;
                 currentFlip = "x";
             } else {
                 // Fallback: remove everything
@@ -468,11 +484,11 @@
 
                 // 3. Define the JS link
                 const jsScript = `<script type="module" src="https://cll-software.github.io/Organogram-Maker/Draggable.js"><\/script>
-                    <script>
-                          window.addEventListener('DOMContentLoaded', () => {
-                            window.drawElbowLines("org-lines-svg", "org-container");
-                          });
-                    <\/script>`;
+                                                        <script>
+                                                                window.addEventListener('DOMContentLoaded', () => {
+                                                                window.drawElbowLines("org-lines-svg", "org-container");
+                                                                });
+                                                        <\/script>`;
 
 
                 // 4. Combine everything
@@ -488,5 +504,6 @@
             }
         });
     </script>
+
 </body>
 </html>

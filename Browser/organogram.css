@@ -1,7 +1,4 @@
-body {
-    font-family: sans-serif;
-    text-wrap: nowrap;
-}
+
 #organagram {
     border: 2px solid grey;
     border-radius: 10px;
@@ -9,8 +6,16 @@ body {
     margin-top: 10px;
     margin-bottom: 10px;
     overflow: clip;
-    margin-left: 50px;
+    text-wrap: nowrap;
+    color: #1a1a1a;
+    background: #FFFFFF60;
 }
+
+#organagram.exporting {
+    border: 0px;
+    background: transparent;
+}
+
 
 #org-container {
     width: fit-content;
@@ -71,8 +76,5 @@ body {
     padding-right: 14px;
 }
 
-strong {
-    padding-bottom: 4px;
-}
 
 
