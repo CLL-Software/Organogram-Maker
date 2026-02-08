@@ -46,3 +46,4 @@ export function initializeDragging(svgID, divID) {
         drawElbowLines(svgID, divID);
     });
 }
+window.initializeDragging = initializeDragging;
