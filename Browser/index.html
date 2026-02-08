@@ -483,10 +483,11 @@
                 const cssContent = `<style>\n${cssText}\n</style>`;
 
                 // 3. Define the JS link
-                const jsScript = `<script type="module" src="https://cll-software.github.io/Organogram-Maker/Draggable.js"><\/script>
+                const jsScript = `<script type="module" src="https://cll-software.github.io/Organogram-Maker/Browser/Draggable.js"><\/script>
                                                         <script>
                                                                 window.addEventListener('DOMContentLoaded', () => {
                                                                 window.drawElbowLines("org-lines-svg", "org-container");
+                                                                window.initializeDragging("org-lines-svg", "org-container");
                                                                 });
                                                         <\/script>`;
 

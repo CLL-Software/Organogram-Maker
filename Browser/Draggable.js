@@ -1,5 +1,4 @@
 import { drawElbowLines } from './DrawLines.js';
-// Function to initialize dragging functionality
 export function initializeDragging(svgID, divID) {
     const dragItems = document.getElementById(divID).querySelectorAll('.org-box');
 

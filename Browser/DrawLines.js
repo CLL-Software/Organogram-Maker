@@ -1,6 +1,3 @@
-// DrawLines.js
-
-// Helper function to get the container
 function getContainer(divID) {
     return document.getElementById(divID) || document.body;
 }
@@ -8,7 +5,6 @@ function getContainer(divID) {
 export function drawElbowLines(svgID, divID, png=false) {
     const container = getContainer(divID);
 
-    // 1. Check if an old SVG exists
     const oldSvg = document.getElementById(svgID);
     let nextSibling = null;
     let parentNode = container;
@@ -19,13 +15,11 @@ export function drawElbowLines(svgID, divID, png=false) {
         oldSvg.remove();
     }
 
-    // 2. Create the new SVG container
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.id = svgID;
     svg.style.position = "absolute";
     svg.style.pointerEvents = "none";
 
-    // Set dimensions based on scroll size to cover all elements
     const fullWidth = container.scrollWidth;
     const fullHeight = container.scrollHeight;
 
@@ -38,10 +32,7 @@ export function drawElbowLines(svgID, divID, png=false) {
         parentNode.appendChild(svg);
     }
 
-    // 3. Draw the Elbow Lines
     const boxes = document.getElementById(divID).querySelectorAll('.org-box');
-
-    // We need the container's position to calculate relative coordinates
     const containerRect = container.getBoundingClientRect();
 
     boxes.forEach(childEl => {
@@ -53,13 +44,8 @@ export function drawElbowLines(svgID, divID, png=false) {
 
         const inputType = childEl.getAttribute('lineInput');
         const outputType = parentEl.getAttribute('lineOutput');
-
-        // [KEY CHANGE]: getBoundingClientRect() returns the visual position,
-        // which includes CSS transforms like scaleX(-1)
         const cRect = childEl.getBoundingClientRect();
         const pRect = parentEl.getBoundingClientRect();
-
-        // Coordinates relative to the container origin
         let startX = (pRect.left + pRect.width / 2) - containerRect.left;
         let startY = ((pRect.top + pRect.bottom) * 0.5) - containerRect.top;
 
@@ -83,8 +69,6 @@ export function drawElbowLines(svgID, divID, png=false) {
 
 
         let pathData = "";
-
-        // Path logic
         if (outputType === "bottom" && inputType === "top") {
             const midY = startY + (endY - startY) / 2;
             pathData = `M ${startX} ${startY} V ${midY} H ${endX} V ${endY}`;

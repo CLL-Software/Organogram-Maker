@@ -1,4 +1,3 @@
-// InputCaller.js
 import { structureBoxes } from './StructureBoxes.js';
 import { drawElbowLines } from './DrawLines.js';
 import { initializeDragging } from './Draggable.js';
@@ -25,7 +24,6 @@ function loadOrgDataFromHtmlTable() {
     const data = [];
     const rows = table.querySelectorAll("tbody tr");
 
-    // Get headers to map column names
     const headers = Array.from(rows[0].querySelectorAll("th")).map(th => th.textContent.trim());
     const reservedIndices = {
         id: headers.findIndex(h => h.toLowerCase() === "id"),
@@ -35,7 +33,7 @@ function loadOrgDataFromHtmlTable() {
         image: headers.findIndex(h => h.toLowerCase() === "image url")
     };
 
-    // Iterate through data rows (skipping header row)
+
     for (let i = 1; i < rows.length; i++) {
         const cells = rows[i].querySelectorAll("td");
         const rowData = {};
@@ -45,15 +43,11 @@ function loadOrgDataFromHtmlTable() {
             const header = headers[index];
             const value = cell.textContent.trim();
 
-            // 1. Handle reserved fields
             if (index === reservedIndices.id) rowData.id = value;
-            // 2. --- KEY CHANGE: Map empty parent to null ---
             else if (index === reservedIndices.parent) rowData.parent = value || null;
             else if (index === reservedIndices.name) rowData.name = value;
             else if (index === reservedIndices.colour) rowData.colour = value;
             else if (index === reservedIndices.image) rowData.image = value || null;
-
-            // 3. Skip empty cells or hidden columns for 'lines' array
             else if (value && !header.startsWith('!')) {
                 lines.push(value);
             }

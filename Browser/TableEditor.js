@@ -10,7 +10,6 @@ const tableWrapper = document.querySelector(".table-wrapper");
 tableWrapper.addEventListener("paste", function (e) {
     const html = e.clipboardData.getData("text/html");
 
-    // No table in clipboard → normal paste
     if (!html || !html.toLowerCase().includes("<table")) return;
 
     e.preventDefault();

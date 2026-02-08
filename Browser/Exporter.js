@@ -1,8 +1,4 @@
-// Exporter.js
-
 import { drawElbowLines } from "./DrawLines.js";
-
-// --- HELPER: Fetch and Convert Image to Base64 ---
 async function imageToDataURL(url) {
     try {
         const response = await fetch(url);

@@ -1,4 +1,3 @@
-// StructureBoxes.js
 import { formatBox } from './FormatBox.js';
 
 export function structureBoxes(data, Boxes, Lines, parentId = null) {
@@ -7,8 +6,6 @@ export function structureBoxes(data, Boxes, Lines, parentId = null) {
 
     const container = document.createElement('div');
 
-    // --- UPDATED LOGIC ---
-    // Dynamically set the class based on the horizontal flag
     container.className = (Boxes==1) ? 'org-level horizontal' : 'org-level';
 
     if (parentId === null) {
@@ -20,8 +17,6 @@ export function structureBoxes(data, Boxes, Lines, parentId = null) {
         wrapper.className = (Boxes==1) ? 'node-wrapper horizontal' : 'node-wrapper';
 
         wrapper.appendChild(formatBox(item, Boxes, Lines));
-
-        // Pass the horizontal flag down to children to maintain consistency
         const subTree = structureBoxes(data, Boxes, Lines, item.id);
         if (subTree) wrapper.appendChild(subTree);
 
