@@ -1,15 +1,15 @@
 // DrawLines.js
 
 // Helper function to get the container
-function getContainer() {
-    return document.getElementById("org-container") || document.body;
+function getContainer(divID) {
+    return document.getElementById(divID) || document.body;
 }
 
-export function drawElbowLines(png=false) {
-    const container = getContainer();
+export function drawElbowLines(svgID, divID, png=false) {
+    const container = getContainer(divID);
 
     // 1. Check if an old SVG exists
-    const oldSvg = document.getElementById("org-lines-svg");
+    const oldSvg = document.getElementById(svgID);
     let nextSibling = null;
     let parentNode = container;
 
@@ -21,7 +21,7 @@ export function drawElbowLines(png=false) {
 
     // 2. Create the new SVG container
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.id = "org-lines-svg";
+    svg.id = svgID;
     svg.style.position = "absolute";
     svg.style.pointerEvents = "none";
 
@@ -39,7 +39,7 @@ export function drawElbowLines(png=false) {
     }
 
     // 3. Draw the Elbow Lines
-    const boxes = document.querySelectorAll('.org-box');
+    const boxes = document.getElementById(divID).querySelectorAll('.org-box');
 
     // We need the container's position to calculate relative coordinates
     const containerRect = container.getBoundingClientRect();
@@ -66,7 +66,7 @@ export function drawElbowLines(png=false) {
         let endX = (cRect.left + cRect.width / 2) - containerRect.left;
         let endY = ((cRect.top + cRect.bottom) * 0.5) - containerRect.top;
 
-        const organagram = document.getElementById('org-container');
+        const organagram = document.getElementById(divID);
         const transform = getComputedStyle(organagram).transform;
         const isFlippedX = transform.includes('matrix(-1, 0, 0, 1') || transform.includes('scaleX(-1)');
         const isFlippedY = transform.includes('matrix(1, 0, 0, -1') || transform.includes('scaleY(-1)');

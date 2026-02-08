@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organogram</title>
+    <script type="module" src="Organogram.js" defer></script>
+</head>
+<body>
+    <div id="test-this-organagram"></div>
+    <br />
+    <br />
+    <br />
+    <div id="test-this-organagram2"></div>
+    <script type="module">
+        const orgData = [
+            { id: '1', parent: null, name: 'Henry John Temple', color: '#ff6347', image: "https://upload.wikimedia.org/wikipedia/commons/b/b1/Henry_John_Temple%2C_3rd_Viscount_Palmerston.jpg", lines: [] },
+            { parent: '1', id: '2', name: 'George Hamilton-Gordon', colour: '#2ecc71', lines: [] },
+            { id: '3', parent: '1', name: 'Sir George Grey', colour: '#3498db', lines: [] },
+            { id: '4', parent: '2', name: 'Sir William Molesworth', colour: '#9b59b6' },
+            { id: '5', parent: '3', name: 'Sir Richard Mayne', colour: '#f39c12' },
+            { id: '6', parent: '3', name: 'Sir Edward Bulwer-Lytton', colour: '#e74c3c' },
+        ]
+
+        const otherData = [
+            ['1', null, 'Henry John Temple', '#ff6347',"https://upload.wikimedia.org/wikipedia/commons/b/b1/Henry_John_Temple%2C_3rd_Viscount_Palmerston.jpg", []],
+            ['2', '1', 'George Hamilton-Gordon', '#2ecc71',, []],
+            ['3', '1', 'Sir George Grey', '#3498db',, []],
+        ]
+
+        // Now it's safe to call Organogram because it was attached globally after the DOM is ready
+        Organogram("test-this-organagram", orgData, 0, 2, false, "30px");
+        Organogram("test-this-organagram2", otherData, 0, 0, true, "30px");
+    </script>
+</body>
+</html>

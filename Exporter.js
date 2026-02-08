@@ -1,7 +1,6 @@
 // Exporter.js
 
 import { drawElbowLines } from "./DrawLines.js";
-import { refresh } from "./InputCaller.js";
 
 // --- HELPER: Fetch and Convert Image to Base64 ---
 async function imageToDataURL(url) {
@@ -44,7 +43,7 @@ export async function exportToPNG() {
     const organagram = document.getElementById('organagram');
     const style = window.getComputedStyle(organagram);
     organagram.style.position = 'relative';
-    drawElbowLines(true);
+    drawElbowLines("org-lines-svg", "org-container", true);
 
     // 2. Manipulate the SVG transform attribute directly
     // --- 3. RENDER ---
@@ -71,7 +70,7 @@ export async function exportToPNG() {
     link.download = 'organogram.png';
     link.href = pngUrl;
     link.click();
-    drawElbowLines();
+    drawElbowLines("org-lines-svg", "org-container",false);
 }
 
 window.exportToPNG = exportToPNG;

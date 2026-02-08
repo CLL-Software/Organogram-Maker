@@ -445,38 +445,6 @@
 
     </script>
     <script>
-        // Function to update the background color of the cell based on the hex color value
-        function updateCellColor(cell) {
-            const color = cell.innerText.trim();
-            if (/^#[0-9A-F]{6}$/i.test(color) || /^#[0-9A-F]{3}$/i.test(color)) {
-                cell.style.backgroundColor = color;
-            }
-        }
-
-        // Function to open color picker and update color
-        function openColorPicker(event) {
-            const colorCell = event.target;
-
-            // Only trigger if the clicked element is a color column cell
-            if (colorCell.classList.contains('color-cell')) {
-                const colorPicker = document.getElementById('colorPicker');
-                colorPicker.click();  // Open the color picker
-                colorPicker.addEventListener('input', function () {
-                    const newColor = colorPicker.value;
-                    colorCell.innerText = newColor;  // Update the cell text with the new color
-                    updateCellColor(colorCell);  // Update the cell background color
-                });
-            }
-        }
-
-        // Attach event listener to color column cells
-        const colorCells = document.querySelectorAll('.color-cell');
-        colorCells.forEach(cell => {
-            cell.addEventListener('click', openColorPicker);  // Open color picker on click
-            updateCellColor(cell);  // Ensure initial color is applied
-        });
-    </script>
-    <script>
         document.getElementById('copyEmbedBtn').addEventListener('click', async function () {
             try {
                 // 1. Get the HTML content
@@ -499,7 +467,13 @@
                 const cssContent = `<style>\n${cssText}\n</style>`;
 
                 // 3. Define the JS link
-                const jsScript = `<script type="module" src="https://cll-software.github.io/Organogram-Maker/Draggable.js"><\/script>`;
+                const jsScript = `<script type="module" src="https://cll-software.github.io/Organogram-Maker/Draggable.js"><\/script>
+                    <script>
+                          window.addEventListener('DOMContentLoaded', () => {
+                            window.drawElbowLines("org-lines-svg", "org-container");
+                          });
+                    <\/script>`;
+
 
                 // 4. Combine everything
                 const embedCode = `${cssContent}\n${orgContent}\n${jsScript}`;

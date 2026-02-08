@@ -1,7 +1,7 @@
 import { drawElbowLines } from './DrawLines.js';
 // Function to initialize dragging functionality
-export function initializeDragging() {
-    const dragItems = document.querySelectorAll('.org-box');
+export function initializeDragging(svgID, divID) {
+    const dragItems = document.getElementById(divID).querySelectorAll('.org-box');
 
     let activeItem = null;
     let startMouseX = 0, startMouseY = 0;
@@ -16,7 +16,7 @@ export function initializeDragging() {
             initialElementY = parseInt(activeItem.style.top) || 0;
 
             activeItem.style.cursor = "grabbing";
-            drawElbowLines();
+            drawElbowLines(svgID, divID);
         });
     });
 
@@ -24,8 +24,7 @@ export function initializeDragging() {
         if (!activeItem) return;
         let deltaX = e.clientX - startMouseX;
         let deltaY = e.clientY - startMouseY;
-        const organagram = document.getElementById('org-container');
-        const transform = getComputedStyle(organagram).transform;
+        const transform = getComputedStyle(activeItem).transform;
         const isFlippedX = transform.includes('matrix(-1, 0, 0, 1') || transform.includes('scaleX(-1)');
         const isFlippedY = transform.includes('matrix(1, 0, 0, -1') || transform.includes('scaleY(-1)');
 
@@ -39,13 +38,12 @@ export function initializeDragging() {
         activeItem.style.left = (initialElementX + deltaX) + "px";
         activeItem.style.top = (initialElementY + deltaY) + "px";
 
-        drawElbowLines();
+        drawElbowLines(svgID, divID);
     });
     document.addEventListener("mouseup", () => {
         if (!activeItem) return;
         activeItem.style.cursor = "grab";
         activeItem = null;
-        drawElbowLines();
+        drawElbowLines(svgID, divID);
     });
 }
-initializeDragging();

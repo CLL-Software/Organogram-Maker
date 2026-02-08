@@ -16,6 +16,7 @@ export function addColumn() {
         rows[i].appendChild(cell);
     }
 }
+window.addColumn = addColumn;
 
 const REQUIRED_HEADERS = [
     "ID",

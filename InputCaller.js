@@ -3,20 +3,6 @@ import { structureBoxes } from './StructureBoxes.js';
 import { drawElbowLines } from './DrawLines.js';
 import { initializeDragging } from './Draggable.js';
 
-
-// Inside InputCaller.js
-window.addEventListener('resize', () => {
-    drawElbowLines();
-});
-
-// Also trigger on zoom changes (which often fire a scroll or resize)
-window.addEventListener('scroll', () => {
-    // Only necessary if your SVG isn't moving with the body
-    drawElbowLines();
-});
-
-
-
 export function refresh() {
     const root = document.getElementById("org-container");
     const chart = document.getElementById("ChartType").value;
@@ -24,8 +10,8 @@ export function refresh() {
     root.innerHTML = "";
     const orgData = loadOrgDataFromHtmlTable();
     root.appendChild(structureBoxes(orgData, chart, line));
-    drawElbowLines();
-    initializeDragging();
+    drawElbowLines("org-lines-svg", "org-container");
+    initializeDragging("org-lines-svg", "org-container");
 }
 window.refresh = refresh;
 
@@ -76,7 +62,6 @@ function loadOrgDataFromHtmlTable() {
         rowData.lines = lines;
         data.push(rowData);
     }
-
     return data;
 }
 
