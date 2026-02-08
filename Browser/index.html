@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom HTML Organogram</title>
+    <link rel="stylesheet" href="general.css">
+    <link rel="stylesheet" href="organogram.css">
+    <link rel="stylesheet" href="table.css">
+</head>
+<body>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script type="module" src="InputCaller.js"></script>
+    <script type="module" src="DrawLines.js"></script>
+    <script type="module" src="Draggable.js"></script>
+    <script type="module" src="TableEditor.js"></script>
+    <script type="module" src="Exporter.js"></script>
+
+    <h1>Organogram Maker</h1>
+    <h3>Instructions for use</h3>
+    <p>
+        Ensure your Excel table contains the following columns. Additional columns will be rendered on new lines inside the boxes.
+    </p>
+
+    <ul>
+        <li><strong>ID</strong>: <em>(Compulsory)</em> Unique identifier for the person.</li>
+        <li><strong>Parent ID</strong>: <em>(Compulsory)</em> The <strong>id</strong> of the direct supervisor.</li>
+        <li><strong>Name</strong>: <em>(Compulsory)</em> The display name shown in the box.</li>
+        <li><strong>Colour</strong>: <em>(Compulsory)</em> Hex code for the box border (e.g., <code>#e74c3c</code>).</li>
+        <li><strong>Image URL</strong>: <em>(Optional)</em> URL for a profile picture.</li>
+        <li><strong>Additional Columns</strong>: Cell contents will appear as text on a new line within the box.</li>
+        <li><strong>Hidden Columns</strong>: Place an exclamation mark (<strong>!</strong>) at the beginning of a column header to hide its contents from the chart.</li>
+        <li>Any additional text starting with a <strong style="font-size: 18px;">#</strong> will be rendered as a special tag with a seeded color circle based on the text content.</li>
+    </ul>
+    <p><strong>Note</strong>: When pasting from Excel, ensure the compulsory headers are included in the top row exactly as above.</p>
+    <br />
+
+
+
+    <div class="table-wrapper">
+        <button class="add-column" onclick="addColumn()">+</button>
+        <table id="orgTable" border="1" cellpadding="6" cellspacing="0">
+            <tbody>
+                <tr><th contenteditable="false">ID</th><th contenteditable="false">Parent ID</th><th contenteditable="false">Name</th><th contenteditable="false">Colour</th><th contenteditable="true">Image URL</th><th contenteditable="true">Position</th><th contenteditable="true">Area</th><th contenteditable="true">!Responsibility</th></tr>
+                <tr>
+                    <td contenteditable="true">1</td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true">
+                        Henry
+                        John Temple
+                    </td>
+                    <td contenteditable="true">#ff6347</td>
+                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/b/b1/Henry_John_Temple%2C_3rd_Viscount_Palmerston.jpg</td>
+                    <td contenteditable="true">
+                        Prime
+                        Minister
+                    </td>
+                    <td contenteditable="true">
+                        #Executive
+                        Office
+                    </td>
+                    <td contenteditable="true">
+                        #Government
+                        Leadership
+                    </td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">2</td>
+                    <td contenteditable="true">1</td>
+                    <td contenteditable="true">
+                        George
+                        Hamilton-Gordon
+                    </td>
+                    <td contenteditable="true">#2ecc71</td>
+                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/George-Hamilton-Gordon-4th-Earl-of-Aberdeen_%283x4_cropped%29.jpg/960px-George-Hamilton-Gordon-4th-Earl-of-Aberdeen_%283x4_cropped%29.jpg</td>
+                    <td contenteditable="true">
+                        Chancellor
+                        of the Exchequer
+                    </td>
+                    <td contenteditable="true">
+                        #Financial
+                        Management
+                    </td>
+                    <td contenteditable="true">#Treasury</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">3</td>
+                    <td contenteditable="true">1</td>
+                    <td contenteditable="true">
+                        Sir
+                        George Grey
+                    </td>
+                    <td contenteditable="true">#3498db</td>
+                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/a/a1/GeorgeEdwardGrey01.jpg</td>
+                    <td contenteditable="true">
+                        Home
+                        Secretary
+                    </td>
+                    <td contenteditable="true">
+                        #Internal
+                        Affairs
+                    </td>
+                    <td contenteditable="true">
+                        #Law
+                        &amp; Order
+                    </td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">4</td>
+                    <td contenteditable="true">2</td>
+                    <td contenteditable="true">
+                        Sir
+                        William Molesworth
+                    </td>
+                    <td contenteditable="true">#9b59b6</td>
+                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/8/83/Sir_William_Molesworth%2C_8th_Bt_by_Sir_John_Watson-Gordon.jpg</td>
+                    <td contenteditable="true">
+                        Head
+                        of Treasury
+                    </td>
+                    <td contenteditable="true">
+                        #Finance
+                        Management
+                    </td>
+                    <td contenteditable="true">
+                        #Economic
+                        Affairs
+                    </td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">5</td>
+                    <td contenteditable="true">3</td>
+                    <td contenteditable="true">
+                        Sir
+                        Richard Mayne
+                    </td>
+                    <td contenteditable="true">#f39c12</td>
+                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/a/ab/RichardMayneHeadOfTheMetropolitanPolice.png</td>
+                    <td contenteditable="true">
+                        Head
+                        of Police
+                    </td>
+                    <td contenteditable="true">
+                        #National
+                        Security
+                    </td>
+                    <td contenteditable="true">
+                        #Law
+                        Enforcement
+                    </td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">6</td>
+                    <td contenteditable="true">3</td>
+                    <td contenteditable="true">
+                        Sir
+                        Edward Bulwer-Lytton
+                    </td>
+                    <td contenteditable="true">#e74c3c</td>
+                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Edward_George_Earle_Lytton_Bulwer_Lytton%2C_1st_Baron_Lytton_by_Henry_William_Pickersgill.jpg/1280px-Edward_George_Earle_Lytton_Bulwer_Lytton%2C_1st_Baron_Lytton_by_Henry_William_Pickersgill.jpg</td>
+                    <td contenteditable="true">
+                        Head
+                        of Prisons
+                    </td>
+                    <td contenteditable="true">
+                        #Corrections
+                        Management
+                    </td>
+                    <td contenteditable="true">
+                        #Criminal
+                        Justice
+                    </td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">7</td>
+                    <td contenteditable="true">4</td>
+                    <td contenteditable="true">
+                        James
+                        Loch
+                    </td>
+                    <td contenteditable="true">#1abc9c</td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true">
+                        Treasury
+                        Manager
+                    </td>
+                    <td contenteditable="true">
+                        #Finance
+                        Operations
+                    </td>
+                    <td contenteditable="true">
+                        #Revenue
+                        Collection
+                    </td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">8</td>
+                    <td contenteditable="true">4</td>
+                    <td contenteditable="true">
+                        Sir
+                        William Vernon Harcourt
+                    </td>
+                    <td contenteditable="true">#f1c40f</td>
+                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/a/af/Sir_William_Harcourt.jpg</td>
+                    <td contenteditable="true">
+                        Tax
+                        Advisor
+                    </td>
+                    <td contenteditable="true">
+                        #Taxation
+                        and Revenue
+                    </td>
+                    <td contenteditable="true">
+                        #Public
+                        Finances
+                    </td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">9</td>
+                    <td contenteditable="true">5</td>
+                    <td contenteditable="true">
+                        Sir
+                        John Thwaites
+                    </td>
+                    <td contenteditable="true">#fffff</td>
+                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/e/e7/SirJohnThwaites.jpg</td>
+                    <td contenteditable="true">
+                        Chief
+                        Constable
+                    </td>
+                    <td contenteditable="true">
+                        #Policing
+                        Operations
+                    </td>
+                    <td contenteditable="true">
+                        #Law
+                        Enforcement
+                    </td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">10</td>
+                    <td contenteditable="true">9</td>
+                    <td contenteditable="true">
+                        Sir
+                        Charles Warren
+                    </td>
+                    <td contenteditable="true">#16a085</td>
+                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/3/3b/Charles_Warren_carbon_print_portrait_by_Herbert_Rose_Barraud_of_London.jpg</td>
+                    <td contenteditable="true">
+                        Senior
+                        Officer
+                    </td>
+                    <td contenteditable="true">
+                        #Regional
+                        Policing
+                    </td>
+                    <td contenteditable="true">
+                        #Public
+                        Safety
+                    </td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">11</td>
+                    <td contenteditable="true">6</td>
+                    <td contenteditable="true">
+                        Sir
+                        Samuel Romilly
+                    </td>
+                    <td contenteditable="true">#34495e</td>
+                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/c/c6/Sir_Samuel_Romilly.jpg</td>
+                    <td contenteditable="true">
+                        Prison
+                        Director
+                    </td>
+                    <td contenteditable="true">
+                        #Correctional
+                        Services
+                    </td>
+                    <td contenteditable="true">
+                        #Prison
+                        Management
+                    </td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">12</td>
+                    <td contenteditable="true">7</td>
+                    <td contenteditable="true">
+                        Edward
+                        Lytton
+                    </td>
+                    <td contenteditable="true">#2ecc71</td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true">
+                        Financial
+                        Auditor
+                    </td>
+                    <td contenteditable="true">
+                        #Fiscal
+                        Oversight
+                    </td>
+                    <td contenteditable="true">
+                        #Public
+                        Accounts
+                    </td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">13</td>
+                    <td contenteditable="true">8</td>
+                    <td contenteditable="true">
+                        William
+                        Trench
+                    </td>
+                    <td contenteditable="true">#e67e22</td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true">
+                        Tax
+                        Collector
+                    </td>
+                    <td contenteditable="true">
+                        #Revenue
+                        Collection
+                    </td>
+                    <td contenteditable="true"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <br />
+    <h3>Formatting</h3>
+    <ul>
+        <li>Items can be dragged into different positions once the graph is loaded.</li>
+        <li>Tip: Press Ctrl and + to zoom in, or Ctrl and − to zoom out.</li>
+    </ul>
+
+    <button onclick="exportToPNG()">Save as PNG</button>
+    <button onclick="flip()">Flip Direction</button>
+    <button onclick="refresh()">Refresh chart</button>
+    <button onclick="support()">Support $</button>
+    <button id="copyEmbedBtn">Copy Embed Code</button>
+
+    <br /><br />
+    <label for="ChartType">Choose a chart type:</label>
+    <select id="ChartType" name="chartTypes" onchange="refresh()">
+        <option value="0">Vertical</option>
+        <option value="1">Horizontal</option>
+    </select>
+    <br /><br />
+
+    <label for="LineType">Choose a line type:</label>
+    <select id="LineType" name="lineTypes" onchange="refresh()">
+        <option value="0">Vertical</option>
+        <option value="1">Horizontal</option>
+        <option value="2">Direct</option>
+    </select>
+    <br />
+
+
+    <div id="organagram">
+        <svg id="org-lines-svg"></svg>
+        <div id="org-container"></div>
+    </div>
+
+
+    <script>
+        function support() {
+            window.open("https://buymeacoffee.com/organogrammaker");
+        }
+    </script>
+
+    <script>
+        let currentFlip = null; // "x", "y", or null
+
+        function flipper() {
+            const chartType = document.getElementById('ChartType').value;
+            let styleEl = document.getElementById('organagram-flip-styles');
+
+            if (!styleEl) {
+                styleEl = document.createElement('style');
+                styleEl.id = 'organagram-flip-styles';
+                document.head.appendChild(styleEl);
+            }
+
+            // Determine desired flip based on chart type
+            const desiredFlip = chartType === "0" ? "y" :
+                chartType === "1" ? "x" : null;
+
+            // If pressing again on the same flip → remove it
+            if (currentFlip === desiredFlip) {
+                styleEl.textContent = '';
+                currentFlip = null;
+                return;
+            }
+
+            // Apply the new flip (this automatically replaces the old one)
+            if (desiredFlip === "y") {
+                styleEl.textContent = `
+                        #org-container {
+                            transform: scaleY(-1);
+                            transform-origin: center;
+                        }
+                        .org-box {
+                            transform: scaleY(-1);
+                        }
+                        #org-lines-svg {
+                            transform: scaleY(-1);
+                        }
+                    `;
+                currentFlip = "y";
+            } else if (desiredFlip === "x") {
+            styleEl.textContent = `
+                    #org-container {
+                        transform: scaleX(-1);
+                        transform-origin: center;
+                    }
+                    .org-box {
+                        transform: scaleX(-1);
+                    }
+                    #org-lines-svg {
+                        transform: scaleX(-1);
+                    }
+                `;
+                currentFlip = "x";
+            } else {
+                // Fallback: remove everything
+                styleEl.textContent = '';
+                currentFlip = null;
+            }
+
+        }
+
+        async function flip() {
+            flipper();
+            refresh();
+        }
+
+
+
+        document.getElementById('ChartType').addEventListener('change', () => {
+            const styleEl = document.getElementById('organagram-flip-styles');
+            if (styleEl) styleEl.textContent = '';
+            currentFlip = null;
+            refresh();
+        });
+
+    </script>
+    <script>
+        document.getElementById('copyEmbedBtn').addEventListener('click', async function () {
+            try {
+                // 1. Get the HTML content
+                const orgContent = document.getElementById('organagram').outerHTML;
+
+                // 2. Fetch the base CSS content from the file
+                const response = await fetch('organogram.css');
+                if (!response.ok) {
+                    throw new Error('Could not load organogram.css');
+                }
+                let cssText = await response.text();
+
+                if (currentFlip) {
+                    const flipStyleEl = document.getElementById('organagram-flip-styles');
+                    if (flipStyleEl) {
+                        cssText += `\n/* Flip Styles */\n${flipStyleEl.textContent}`;
+                    }
+                }
+
+                const cssContent = `<style>\n${cssText}\n</style>`;
+
+                // 3. Define the JS link
+                const jsScript = `<script type="module" src="https://cll-software.github.io/Organogram-Maker/Draggable.js"><\/script>
+                    <script>
+                          window.addEventListener('DOMContentLoaded', () => {
+                            window.drawElbowLines("org-lines-svg", "org-container");
+                          });
+                    <\/script>`;
+
+
+                // 4. Combine everything
+                const embedCode = `${cssContent}\n${orgContent}\n${jsScript}`;
+
+                // 5. Copy to clipboard
+                await navigator.clipboard.writeText(embedCode);
+                alert('Embed code (including current orientation) copied to clipboard!');
+
+            } catch (err) {
+                console.error('Error generating embed code: ', err);
+                alert('Failed to copy embed code. Check console for details.');
+            }
+        });
+    </script>
+</body>
+</html>
