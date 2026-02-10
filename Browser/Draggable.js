@@ -1,7 +1,13 @@
 import { drawElbowLines } from './DrawLines.js';
 export function initializeDragging(svgID, divID) {
     const div = document.getElementById(divID);
-    const scale = div.style.zoom;
+    const s = getComputedStyle(document.getElementById(divID));
+    const scale =
+        (parseFloat(s.zoom) || 1) *
+        (parseFloat(s.scale) || 1) *
+        (parseFloat(s.transform.match(/scale\(([^)]+)\)/)?.[1]) || 1);
+
+    console.log(scale);
     const dragItems = div.querySelectorAll('.org-box');
 
     let activeItem = null;

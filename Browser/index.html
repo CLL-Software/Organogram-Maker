@@ -19,372 +19,371 @@
     <div class="h1">
         <h1>Organogram Maker</h1>
     </div>
-    <br />
-    <div id="organagram">
-        <svg id="org-lines-svg"></svg>
-        <div id="org-container"></div>
-    </div>
-    <div style="display: grid;grid-template-columns: max-content max-content max-content; gap: 30px; align-items: center;">
-        <div>
-            <select id="ChartType" name="chartTypes" onchange="refresh()">
-                <option value="0">Vertical Layout</option>
-                <option value="1">Horizontal Layout</option>
-            </select>
-        </div>
-        <div>
-            <select id="LineType" name="lineTypes" onchange="refresh()">
-                <option value="0">Vertical Lines</option>
-                <option value="1">Horizontal Lines</option>
-                <option value="2">Direct Lines</option>
-            </select>
-        </div>
-        <div>
-            <select id="AlignType" name="AlignTypes" onchange="refresh()">
-                <option value="0">Centred</option>
-                <option value="1">Start</option>
-                <option value="2">End</option>
-            </select>
-        </div>
-    </div>
-    <br />
-    <div style="display: grid; grid-template-columns: max-content max-content max-content max-content max-content; gap: 10px; align-items: center; ">
-        <button onclick="exportToPNG()">Save as PNG</button>
-        <button onclick="flip()">Flip Direction</button>
-        <button onclick="refresh()">Refresh chart</button>
-        <button url="https://buymeacoffee.com/organogrammaker">Buy me a coffee</button>
-        <button id="copyEmbedBtn">Copy Embed Code</button>
-    </div>
-    <br />
+    <div class="main">
 
-    <button class="accordion">Input Table Instructions + </button>
-    <div class="panel" style="display: none;">
-        <h3>Instructions for use</h3>
-        <p>
-            Ensure the table contains the following columns. Additional columns will be rendered on new lines inside the boxes.
-        </p>
+        <br />
+        <div id="organagram">
+            <svg id="org-lines-svg"></svg>
+            <div id="org-container"></div>
+        </div>
+        <div class="items">
+            <div style="display: grid;grid-template-columns: max-content max-content max-content;gap: 30px;align-items: center;width: max-content;justify-self: center;">
+                <div>
+                    <select id="ChartType" name="chartTypes" onchange="refresh()">
+                        <option value="0">Vertical Layout</option>
+                        <option value="1">Horizontal Layout</option>
+                    </select>
+                </div>
+                <div>
+                    <select id="LineType" name="lineTypes" onchange="refresh()">
+                        <option value="0">Vertical Lines</option>
+                        <option value="1">Horizontal Lines</option>
+                        <option value="2">Direct Lines</option>
+                    </select>
+                </div>
+                <div>
+                    <select id="AlignType" name="AlignTypes" onchange="refresh()"><option value="0">Centred</option><option value="1">Left</option><option value="2">Right</option></select>
+                </div>
+            </div>
+            <br>
+            <div style="display: grid;grid-template-columns: max-content max-content max-content max-content max-content;gap: 10px;align-items: center;justify-self: center;">
+                <button onclick="exportToPNG()">Save as PNG</button>
+                <button onclick="flip()">Flip Direction</button>
+                <button onclick="refresh()">Refresh chart</button>
+                <button url="https://buymeacoffee.com/organogrammaker">Buy me a coffee</button>
+                <button id="copyEmbedBtn">Copy Embed Code</button>
+            </div>
+            <br>
+            <div>
+                <button class="accordion" style="justify-self: center; display: block;">Input Table Instructions + </button>
+                <div class="panel" style="display: none;">
+                    <h3>Instructions for use</h3>
+                    <p>
+                        Ensure the table contains the following columns. Additional columns will be rendered on new lines inside the boxes.
+                    </p>
 
-        <ul>
-            <li><strong>ID</strong>: <em>(Compulsory)</em> Unique identifier for the person.</li>
-            <li><strong>Parent ID</strong>: <em>(Compulsory)</em> The <strong>id</strong> of the direct supervisor.</li>
-            <li><strong>Name</strong>: <em>(Compulsory)</em> The display name shown in the box.</li>
-            <li><strong>Colour</strong>: <em>(Compulsory)</em> Hex code for the box border (e.g., <code>#e74c3c</code>).</li>
-            <li><strong>Image URL</strong>: <em>(Optional)</em> URL for a profile picture.</li>
-            <li><strong>Additional Columns</strong>: Cell contents will appear as text on a new line within the box.</li>
-            <li><strong>Hidden Columns</strong>: Place an exclamation mark (<strong>!</strong>) at the beginning of a column header to hide its contents from the chart.</li>
-            <li>Any additional text starting with a <strong style="font-size: 18px;">#</strong> will be rendered as a special tag with a seeded color circle based on the text content.</li>
+                    <ul>
+                        <li><strong>ID</strong>: <em>(Compulsory)</em> Unique identifier for the person.</li>
+                        <li><strong>Parent ID</strong>: <em>(Compulsory)</em> The <strong>id</strong> of the direct supervisor.</li>
+                        <li><strong>Name</strong>: <em>(Compulsory)</em> The display name shown in the box.</li>
+                        <li><strong>Colour</strong>: <em>(Compulsory)</em> Hex code for the box border (e.g., <code>#e74c3c</code>).</li>
+                        <li><strong>Image URL</strong>: <em>(Optional)</em> URL for a profile picture.</li>
+                        <li><strong>Additional Columns</strong>: Cell contents will appear as text on a new line within the box.</li>
+                        <li><strong>Hidden Columns</strong>: Place an exclamation mark (<strong>!</strong>) at the beginning of a column header to hide its contents from the chart.</li>
+                        <li>Any additional text starting with a <strong style="font-size: 18px;">#</strong> will be rendered as a special tag with a seeded color circle based on the text content.</li>
+                    </ul>
+                    <p><strong>Note</strong>: When pasting from Excel it will attempt to replace the whole table so ensure the compulsory headers are included in the top row exactly as above.</p>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="table-wrapper">
+            <table id="orgTable" border="1" cellpadding="6" cellspacing="0">
+                <tbody>
+                    <tr><th contenteditable="false">ID</th><th contenteditable="false">Parent ID</th><th contenteditable="false">Name</th><th contenteditable="false">Colour</th><th contenteditable="true">Image URL</th><th contenteditable="true">Position</th><th contenteditable="true">Area</th><th contenteditable="true">!Responsibility</th></tr>
+                    <tr>
+                        <td contenteditable="true">1</td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true">
+                            Henry
+                            John Temple
+                        </td>
+                        <td contenteditable="true">#ff6347</td>
+                        <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/b/b1/Henry_John_Temple%2C_3rd_Viscount_Palmerston.jpg</td>
+                        <td contenteditable="true">
+                            Prime
+                            Minister
+                        </td>
+                        <td contenteditable="true">
+                            #Executive
+                            Office
+                        </td>
+                        <td contenteditable="true">
+                            #Government
+                            Leadership
+                        </td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">2</td>
+                        <td contenteditable="true">1</td>
+                        <td contenteditable="true">
+                            George
+                            Hamilton-Gordon
+                        </td>
+                        <td contenteditable="true">#2ecc71</td>
+                        <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/George-Hamilton-Gordon-4th-Earl-of-Aberdeen_%283x4_cropped%29.jpg/960px-George-Hamilton-Gordon-4th-Earl-of-Aberdeen_%283x4_cropped%29.jpg</td>
+                        <td contenteditable="true">
+                            Chancellor
+                            of the Exchequer
+                        </td>
+                        <td contenteditable="true">
+                            #Financial
+                            Management
+                        </td>
+                        <td contenteditable="true">#Treasury</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">3</td>
+                        <td contenteditable="true">1</td>
+                        <td contenteditable="true">
+                            Sir
+                            George Grey
+                        </td>
+                        <td contenteditable="true">#3498db</td>
+                        <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/a/a1/GeorgeEdwardGrey01.jpg</td>
+                        <td contenteditable="true">
+                            Home
+                            Secretary
+                        </td>
+                        <td contenteditable="true">
+                            #Internal
+                            Affairs
+                        </td>
+                        <td contenteditable="true">
+                            #Law
+                            &amp; Order
+                        </td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">4</td>
+                        <td contenteditable="true">2</td>
+                        <td contenteditable="true">
+                            Sir
+                            William Molesworth
+                        </td>
+                        <td contenteditable="true">#9b59b6</td>
+                        <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/8/83/Sir_William_Molesworth%2C_8th_Bt_by_Sir_John_Watson-Gordon.jpg</td>
+                        <td contenteditable="true">
+                            Head
+                            of Treasury
+                        </td>
+                        <td contenteditable="true">
+                            #Finance
+                            Management
+                        </td>
+                        <td contenteditable="true">
+                            #Economic
+                            Affairs
+                        </td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">5</td>
+                        <td contenteditable="true">3</td>
+                        <td contenteditable="true">
+                            Sir
+                            Richard Mayne
+                        </td>
+                        <td contenteditable="true">#f39c12</td>
+                        <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/a/ab/RichardMayneHeadOfTheMetropolitanPolice.png</td>
+                        <td contenteditable="true">
+                            Head
+                            of Police
+                        </td>
+                        <td contenteditable="true">
+                            #National
+                            Security
+                        </td>
+                        <td contenteditable="true">
+                            #Law
+                            Enforcement
+                        </td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">6</td>
+                        <td contenteditable="true">3</td>
+                        <td contenteditable="true">
+                            Sir
+                            Edward Bulwer-Lytton
+                        </td>
+                        <td contenteditable="true">#e74c3c</td>
+                        <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Edward_George_Earle_Lytton_Bulwer_Lytton%2C_1st_Baron_Lytton_by_Henry_William_Pickersgill.jpg/1280px-Edward_George_Earle_Lytton_Bulwer_Lytton%2C_1st_Baron_Lytton_by_Henry_William_Pickersgill.jpg</td>
+                        <td contenteditable="true">
+                            Head
+                            of Prisons
+                        </td>
+                        <td contenteditable="true">
+                            #Corrections
+                            Management
+                        </td>
+                        <td contenteditable="true">
+                            #Criminal
+                            Justice
+                        </td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">7</td>
+                        <td contenteditable="true">4</td>
+                        <td contenteditable="true">
+                            James
+                            Loch
+                        </td>
+                        <td contenteditable="true">#1abc9c</td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true">
+                            Treasury
+                            Manager
+                        </td>
+                        <td contenteditable="true">
+                            #Finance
+                            Operations
+                        </td>
+                        <td contenteditable="true">
+                            #Revenue
+                            Collection
+                        </td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">8</td>
+                        <td contenteditable="true">4</td>
+                        <td contenteditable="true">
+                            Sir
+                            William Vernon Harcourt
+                        </td>
+                        <td contenteditable="true">#f1c40f</td>
+                        <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/a/af/Sir_William_Harcourt.jpg</td>
+                        <td contenteditable="true">
+                            Tax
+                            Advisor
+                        </td>
+                        <td contenteditable="true">
+                            #Taxation
+                            and Revenue
+                        </td>
+                        <td contenteditable="true">
+                            #Public
+                            Finances
+                        </td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">9</td>
+                        <td contenteditable="true">5</td>
+                        <td contenteditable="true">
+                            Sir
+                            John Thwaites
+                        </td>
+                        <td contenteditable="true">#000000</td>
+                        <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/e/e7/SirJohnThwaites.jpg</td>
+                        <td contenteditable="true">
+                            Chief
+                            Constable
+                        </td>
+                        <td contenteditable="true">
+                            #Policing
+                            Operations
+                        </td>
+                        <td contenteditable="true">
+                            #Law
+                            Enforcement
+                        </td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">10</td>
+                        <td contenteditable="true">9</td>
+                        <td contenteditable="true">
+                            Sir
+                            Charles Warren
+                        </td>
+                        <td contenteditable="true">#16a085</td>
+                        <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/3/3b/Charles_Warren_carbon_print_portrait_by_Herbert_Rose_Barraud_of_London.jpg</td>
+                        <td contenteditable="true">
+                            Senior
+                            Officer
+                        </td>
+                        <td contenteditable="true">
+                            #Regional
+                            Policing
+                        </td>
+                        <td contenteditable="true">
+                            #Public
+                            Safety
+                        </td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">11</td>
+                        <td contenteditable="true">6</td>
+                        <td contenteditable="true">
+                            Sir
+                            Samuel Romilly
+                        </td>
+                        <td contenteditable="true">#34495e</td>
+                        <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/c/c6/Sir_Samuel_Romilly.jpg</td>
+                        <td contenteditable="true">
+                            Prison
+                            Director
+                        </td>
+                        <td contenteditable="true">
+                            #Correctional
+                            Services
+                        </td>
+                        <td contenteditable="true">
+                            #Prison
+                            Management
+                        </td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">12</td>
+                        <td contenteditable="true">7</td>
+                        <td contenteditable="true">
+                            Edward
+                            Lytton
+                        </td>
+                        <td contenteditable="true">#2ecc71</td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true">
+                            Financial
+                            Auditor
+                        </td>
+                        <td contenteditable="true">
+                            #Fiscal
+                            Oversight
+                        </td>
+                        <td contenteditable="true">
+                            #Public
+                            Accounts
+                        </td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">13</td>
+                        <td contenteditable="true">8</td>
+                        <td contenteditable="true">
+                            William
+                            Trench
+                        </td>
+                        <td contenteditable="true">#e67e22</td>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true">
+                            Tax
+                            Collector
+                        </td>
+                        <td contenteditable="true">
+                            #Revenue
+                            Collection
+                        </td>
+                        <td contenteditable="true"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br />
+        <br />
+        <div style="display: grid;grid-template-columns: max-content max-content max-content max-content;gap: 30px;align-items: center;column-gap: 15px;justify-content: center;">
+            <label for="rowSelector">Select Row ID: </label>
+            <select id="rowSelector"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option></select>
+            <button style="margin-top: 0;" onclick="addRow()">Add Row After Selected</button>
+            <button style="margin-top: 0;" onclick="deleteRow()">Delete Selected Row</button>
+            <label for="columnSelector">Select Column: </label>
+            <select id="columnSelector"><option value="4">Image URL</option><option value="5">Position</option><option value="6">Area</option><option value="7">!Responsibility</option></select>
+            <button style="margin-top: 0;" onclick="addColumn()">Add Column After Selected</button>
+            <button style="margin-top: 0;" onclick="deleteColumn()">Delete Selected Column</button>
+        </div>
+        <br />
+        <br />
+        <ul style="justify-self: center; display: block;">
+            <p>copyright CLL software 2026</p>
         </ul>
-        <p><strong>Note</strong>: When pasting from Excel it will attempt to replace the whole table so ensure the compulsory headers are included in the top row exactly as above.</p>
-    </div>
-    <br />
-    <div class="table-wrapper">
-        <table id="orgTable" border="1" cellpadding="6" cellspacing="0">
-            <tbody>
-                <tr><th contenteditable="false">ID</th><th contenteditable="false">Parent ID</th><th contenteditable="false">Name</th><th contenteditable="false">Colour</th><th contenteditable="true">Image URL</th><th contenteditable="true">Position</th><th contenteditable="true">Area</th><th contenteditable="true">!Responsibility</th></tr>
-                <tr>
-                    <td contenteditable="true">1</td>
-                    <td contenteditable="true"></td>
-                    <td contenteditable="true">
-                        Henry
-                        John Temple
-                    </td>
-                    <td contenteditable="true">#ff6347</td>
-                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/b/b1/Henry_John_Temple%2C_3rd_Viscount_Palmerston.jpg</td>
-                    <td contenteditable="true">
-                        Prime
-                        Minister
-                    </td>
-                    <td contenteditable="true">
-                        #Executive
-                        Office
-                    </td>
-                    <td contenteditable="true">
-                        #Government
-                        Leadership
-                    </td>
-                </tr>
-                <tr>
-                    <td contenteditable="true">2</td>
-                    <td contenteditable="true">1</td>
-                    <td contenteditable="true">
-                        George
-                        Hamilton-Gordon
-                    </td>
-                    <td contenteditable="true">#2ecc71</td>
-                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/George-Hamilton-Gordon-4th-Earl-of-Aberdeen_%283x4_cropped%29.jpg/960px-George-Hamilton-Gordon-4th-Earl-of-Aberdeen_%283x4_cropped%29.jpg</td>
-                    <td contenteditable="true">
-                        Chancellor
-                        of the Exchequer
-                    </td>
-                    <td contenteditable="true">
-                        #Financial
-                        Management
-                    </td>
-                    <td contenteditable="true">#Treasury</td>
-                </tr>
-                <tr>
-                    <td contenteditable="true">3</td>
-                    <td contenteditable="true">1</td>
-                    <td contenteditable="true">
-                        Sir
-                        George Grey
-                    </td>
-                    <td contenteditable="true">#3498db</td>
-                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/a/a1/GeorgeEdwardGrey01.jpg</td>
-                    <td contenteditable="true">
-                        Home
-                        Secretary
-                    </td>
-                    <td contenteditable="true">
-                        #Internal
-                        Affairs
-                    </td>
-                    <td contenteditable="true">
-                        #Law
-                        &amp; Order
-                    </td>
-                </tr>
-                <tr>
-                    <td contenteditable="true">4</td>
-                    <td contenteditable="true">2</td>
-                    <td contenteditable="true">
-                        Sir
-                        William Molesworth
-                    </td>
-                    <td contenteditable="true">#9b59b6</td>
-                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/8/83/Sir_William_Molesworth%2C_8th_Bt_by_Sir_John_Watson-Gordon.jpg</td>
-                    <td contenteditable="true">
-                        Head
-                        of Treasury
-                    </td>
-                    <td contenteditable="true">
-                        #Finance
-                        Management
-                    </td>
-                    <td contenteditable="true">
-                        #Economic
-                        Affairs
-                    </td>
-                </tr>
-                <tr>
-                    <td contenteditable="true">5</td>
-                    <td contenteditable="true">3</td>
-                    <td contenteditable="true">
-                        Sir
-                        Richard Mayne
-                    </td>
-                    <td contenteditable="true">#f39c12</td>
-                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/a/ab/RichardMayneHeadOfTheMetropolitanPolice.png</td>
-                    <td contenteditable="true">
-                        Head
-                        of Police
-                    </td>
-                    <td contenteditable="true">
-                        #National
-                        Security
-                    </td>
-                    <td contenteditable="true">
-                        #Law
-                        Enforcement
-                    </td>
-                </tr>
-                <tr>
-                    <td contenteditable="true">6</td>
-                    <td contenteditable="true">3</td>
-                    <td contenteditable="true">
-                        Sir
-                        Edward Bulwer-Lytton
-                    </td>
-                    <td contenteditable="true">#e74c3c</td>
-                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Edward_George_Earle_Lytton_Bulwer_Lytton%2C_1st_Baron_Lytton_by_Henry_William_Pickersgill.jpg/1280px-Edward_George_Earle_Lytton_Bulwer_Lytton%2C_1st_Baron_Lytton_by_Henry_William_Pickersgill.jpg</td>
-                    <td contenteditable="true">
-                        Head
-                        of Prisons
-                    </td>
-                    <td contenteditable="true">
-                        #Corrections
-                        Management
-                    </td>
-                    <td contenteditable="true">
-                        #Criminal
-                        Justice
-                    </td>
-                </tr>
-                <tr>
-                    <td contenteditable="true">7</td>
-                    <td contenteditable="true">4</td>
-                    <td contenteditable="true">
-                        James
-                        Loch
-                    </td>
-                    <td contenteditable="true">#1abc9c</td>
-                    <td contenteditable="true"></td>
-                    <td contenteditable="true">
-                        Treasury
-                        Manager
-                    </td>
-                    <td contenteditable="true">
-                        #Finance
-                        Operations
-                    </td>
-                    <td contenteditable="true">
-                        #Revenue
-                        Collection
-                    </td>
-                </tr>
-                <tr>
-                    <td contenteditable="true">8</td>
-                    <td contenteditable="true">4</td>
-                    <td contenteditable="true">
-                        Sir
-                        William Vernon Harcourt
-                    </td>
-                    <td contenteditable="true">#f1c40f</td>
-                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/a/af/Sir_William_Harcourt.jpg</td>
-                    <td contenteditable="true">
-                        Tax
-                        Advisor
-                    </td>
-                    <td contenteditable="true">
-                        #Taxation
-                        and Revenue
-                    </td>
-                    <td contenteditable="true">
-                        #Public
-                        Finances
-                    </td>
-                </tr>
-                <tr>
-                    <td contenteditable="true">9</td>
-                    <td contenteditable="true">5</td>
-                    <td contenteditable="true">
-                        Sir
-                        John Thwaites
-                    </td>
-                    <td contenteditable="true">#000000</td>
-                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/e/e7/SirJohnThwaites.jpg</td>
-                    <td contenteditable="true">
-                        Chief
-                        Constable
-                    </td>
-                    <td contenteditable="true">
-                        #Policing
-                        Operations
-                    </td>
-                    <td contenteditable="true">
-                        #Law
-                        Enforcement
-                    </td>
-                </tr>
-                <tr>
-                    <td contenteditable="true">10</td>
-                    <td contenteditable="true">9</td>
-                    <td contenteditable="true">
-                        Sir
-                        Charles Warren
-                    </td>
-                    <td contenteditable="true">#16a085</td>
-                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/3/3b/Charles_Warren_carbon_print_portrait_by_Herbert_Rose_Barraud_of_London.jpg</td>
-                    <td contenteditable="true">
-                        Senior
-                        Officer
-                    </td>
-                    <td contenteditable="true">
-                        #Regional
-                        Policing
-                    </td>
-                    <td contenteditable="true">
-                        #Public
-                        Safety
-                    </td>
-                </tr>
-                <tr>
-                    <td contenteditable="true">11</td>
-                    <td contenteditable="true">6</td>
-                    <td contenteditable="true">
-                        Sir
-                        Samuel Romilly
-                    </td>
-                    <td contenteditable="true">#34495e</td>
-                    <td contenteditable="true">https://upload.wikimedia.org/wikipedia/commons/c/c6/Sir_Samuel_Romilly.jpg</td>
-                    <td contenteditable="true">
-                        Prison
-                        Director
-                    </td>
-                    <td contenteditable="true">
-                        #Correctional
-                        Services
-                    </td>
-                    <td contenteditable="true">
-                        #Prison
-                        Management
-                    </td>
-                </tr>
-                <tr>
-                    <td contenteditable="true">12</td>
-                    <td contenteditable="true">7</td>
-                    <td contenteditable="true">
-                        Edward
-                        Lytton
-                    </td>
-                    <td contenteditable="true">#2ecc71</td>
-                    <td contenteditable="true"></td>
-                    <td contenteditable="true">
-                        Financial
-                        Auditor
-                    </td>
-                    <td contenteditable="true">
-                        #Fiscal
-                        Oversight
-                    </td>
-                    <td contenteditable="true">
-                        #Public
-                        Accounts
-                    </td>
-                </tr>
-                <tr>
-                    <td contenteditable="true">13</td>
-                    <td contenteditable="true">8</td>
-                    <td contenteditable="true">
-                        William
-                        Trench
-                    </td>
-                    <td contenteditable="true">#e67e22</td>
-                    <td contenteditable="true"></td>
-                    <td contenteditable="true">
-                        Tax
-                        Collector
-                    </td>
-                    <td contenteditable="true">
-                        #Revenue
-                        Collection
-                    </td>
-                    <td contenteditable="true"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <br />
-    <br />
-    <div style="display: grid; grid-template-columns: max-content max-content max-content max-content; gap: 30px; align-items: center; column-gap: 15px;">
-        <label for="rowSelector">Select Row ID: </label>
-        <select id="rowSelector">
-        </select>
-        <button style="margin-top: 0;" onclick="addRow()">Add Row After Selected</button>
-        <button style="margin-top: 0;" onclick="deleteRow()">Delete Selected Row</button>
-        <label for="columnSelector">Select Column: </label>
-        <select id="columnSelector">
-        </select>
-        <button style="margin-top: 0;" onclick="addColumn()">Add Column After Selected</button>
-        <button style="margin-top: 0;" onclick="deleteColumn()">Delete Selected Column</button>
-    </div>
-    <br />
-    <br />
-    <ul>
-        <p>copyright CLL software 2026</p>
-    </ul>
 
-    <br />
-
+        <br />
+    </div>
 
 
 
@@ -413,28 +412,28 @@
             if (desiredFlip === "y") {
                 styleEl.textContent = `
 #org-container {
-                                    transform: scaleY(-1);
-                                    transform-origin: center;
+                                        transform: scaleY(-1);
+                                        transform-origin: center;
 }
 .org-box {
-                                    transform: scaleY(-1);
+                                        transform: scaleY(-1);
 }
 #org-lines-svg {
-                                    transform: scaleY(-1);
+                                        transform: scaleY(-1);
 }
 `;
                 currentFlip = "y";
             } else if (desiredFlip === "x") {
                 styleEl.textContent = `
 #org-container {
-                                    transform: scaleX(-1);
-                                    transform-origin: center;
+                                        transform: scaleX(-1);
+                                        transform-origin: center;
 }
 .org-box {
-                                    transform: scaleX(-1);
+                                        transform: scaleX(-1);
 }
 #org-lines-svg {
-                                    transform: scaleX(-1);
+                                        transform: scaleX(-1);
 }
 `;
                 currentFlip = "x";
@@ -480,12 +479,12 @@
                 const cssContent = `<style>\n${cssText}\n</style>`;
 
                 const jsScript = `<script type="module" src="https://cll-software.github.io/Organogram-Maker/Browser/Draggable.js"><\/script>
-                                                                                            <script>
-                                                                                                    window.addEventListener('DOMContentLoaded', () => {
-                                                                                                    window.drawElbowLines("org-lines-svg", "org-container");
-                                                                                                    window.initializeDragging("org-lines-svg", "org-container");
-                                                                                                    });
-                                                                                            <\/script>`;
+                                                                                                <script>
+                                                                                                        window.addEventListener('DOMContentLoaded', () => {
+                                                                                                        window.drawElbowLines("org-lines-svg", "org-container");
+                                                                                                        window.initializeDragging("org-lines-svg", "org-container");
+                                                                                                        });
+                                                                                                <\/script>`;
 
                 const embedCode = `${cssContent}\n${orgContent}\n${jsScript}`;
                 await navigator.clipboard.writeText(embedCode);

@@ -1,12 +1,21 @@
 body {
-    flex-direction: column;
-    min-height: 100vh;
     margin: 0;
-    display: flex;
-    align-items: center;
     background: white;
     color: #333;
     font-family: 'Segoe UI Variable Display';
+    overflow-x: auto; /* or scroll */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center; /* vertical if column */
+}
+
+.items{
+    justify-self: center;
+}
+.main {
+    margin-top: 100px;
+    max-width: 100%;
+    margin-inline: auto;
 }
 button, select {
     border: 1px solid #5f8099;
@@ -59,6 +68,7 @@ h1 {
     overflow: clip;
     width: -webkit-fill-available;
     width: -moz-fit-content;
+    position: absolute;
 }
 
 .panel {
