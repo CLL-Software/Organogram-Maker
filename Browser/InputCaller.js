@@ -6,9 +6,14 @@ export function refresh() {
     const root = document.getElementById("org-container");
     const chart = document.getElementById("ChartType").value;
     const line = document.getElementById("LineType").value;
+    const alignType = document.getElementById("AlignType");
+
     root.innerHTML = "";
     const orgData = loadOrgDataFromHtmlTable();
     root.appendChild(structureBoxes(orgData, chart, line));
+
+    alignmentStyle(alignType);
+    adjustSelect(alignType, chart);
 
     const orgBoxes = document.querySelectorAll('.org-box');
     let maxWidth = 0;
@@ -23,6 +28,10 @@ export function refresh() {
     orgBoxes.forEach(box => {
         box.style.minWidth = `${maxWidth}px`;
     });
+
+    const org = document.getElementById("organagram");
+    root.style.zoom = 1;
+    root.style.zoom = (org.clientWidth / org.scrollWidth);
 
     drawElbowLines("org-lines-svg", "org-container");
     initializeDragging("org-lines-svg", "org-container");
@@ -75,3 +84,51 @@ function loadOrgDataFromHtmlTable() {
 }
 
 refresh();
+
+function alignmentStyle(alignType) {
+    const align = alignType.value;
+    const nodes = document.querySelectorAll('.node-wrapper');
+    nodes.forEach(node => {
+        if (align == 0) {
+            node.classList.add("centre");
+        }
+        if (align == 1) {
+            node.classList.add("start");
+        }
+        if (align == 2) {
+            node.classList.add("end");
+        }
+    });
+}
+
+function adjustSelect(alignType, chartType) {
+    const startValue = alignType.value;
+    alignType.innerHTML = '';
+
+    if (chartType == '0') {
+        const options = [
+            { value: '0', text: 'Centred' },
+            { value: '1', text: 'Left' },
+            { value: '2', text: 'Right' }
+        ];
+        options.forEach(option => {
+            const opt = document.createElement('option');
+            opt.value = option.value;
+            opt.textContent = option.text;
+            alignType.appendChild(opt);
+        });
+    } else if (chartType == '1') {
+        const options = [
+            { value: '0', text: 'Centred' },
+            { value: '1', text: 'Top' },
+            { value: '2', text: 'Bottom' }
+        ];
+        options.forEach(option => {
+            const opt = document.createElement('option');
+            opt.value = option.value;
+            opt.textContent = option.text;
+            alignType.appendChild(opt);
+        });
+    }
+    alignType.value = startValue;
+}

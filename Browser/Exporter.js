@@ -1,4 +1,5 @@
 import { drawElbowLines } from "./DrawLines.js";
+import { refresh } from "./InputCaller.js";
 async function imageToDataURL(url) {
     try {
         const response = await fetch(url);
@@ -18,6 +19,12 @@ async function imageToDataURL(url) {
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 export async function exportToPNG() {
+    const org = document.getElementById("org-container");
+    const organagram = document.getElementById('organagram');
+    const zoom = org.style.zoom;
+    org.style.zoom = 1;
+    organagram.style.maxWidth = "fit-content";
+    drawElbowLines("org-lines-svg", "org-container", false);
     const boxes = document.querySelectorAll('.org-box');
     for (const box of boxes) {
         const img = box.querySelector('img');
@@ -28,10 +35,8 @@ export async function exportToPNG() {
             }
         }
     }
-    await wait(500);
-    const organagram = document.getElementById('organagram');
-    organagram.classList.add('exporting');
 
+    organagram.classList.add('exporting');
     const style = window.getComputedStyle(organagram);
     organagram.style.position = 'relative';
     drawElbowLines("org-lines-svg", "org-container", true);
@@ -53,6 +58,8 @@ export async function exportToPNG() {
     link.href = pngUrl;
     link.click();
     organagram.classList.remove('exporting');
+    org.style.zoom = zoom;
+    organagram.style.maxWidth = "1300px";
     drawElbowLines("org-lines-svg", "org-container",false);
 }
 

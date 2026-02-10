@@ -1,6 +1,8 @@
 import { drawElbowLines } from './DrawLines.js';
 export function initializeDragging(svgID, divID) {
-    const dragItems = document.getElementById(divID).querySelectorAll('.org-box');
+    const div = document.getElementById(divID);
+    const scale = div.style.zoom;
+    const dragItems = div.querySelectorAll('.org-box');
 
     let activeItem = null;
     let startMouseX = 0, startMouseY = 0;
@@ -23,6 +25,8 @@ export function initializeDragging(svgID, divID) {
         if (!activeItem) return;
         let deltaX = e.clientX - startMouseX;
         let deltaY = e.clientY - startMouseY;
+        deltaX = deltaX * (1 / scale);
+        deltaY = deltaY * (1 / scale);
         const transform = getComputedStyle(activeItem).transform;
         const isFlippedX = transform.includes('matrix(-1, 0, 0, 1') || transform.includes('scaleX(-1)');
         const isFlippedY = transform.includes('matrix(1, 0, 0, -1') || transform.includes('scaleY(-1)');

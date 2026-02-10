@@ -16,27 +16,66 @@
     <script type="module" src="TableEditor.js"></script>
     <script type="module" src="Exporter.js"></script>
 
-    <h1>Organogram Maker</h1>
-    <h3>Instructions for use</h3>
-    <p>
-        Ensure your Excel table contains the following columns. Additional columns will be rendered on new lines inside the boxes.
-    </p>
-
-    <ul>
-        <li><strong>ID</strong>: <em>(Compulsory)</em> Unique identifier for the person.</li>
-        <li><strong>Parent ID</strong>: <em>(Compulsory)</em> The <strong>id</strong> of the direct supervisor.</li>
-        <li><strong>Name</strong>: <em>(Compulsory)</em> The display name shown in the box.</li>
-        <li><strong>Colour</strong>: <em>(Compulsory)</em> Hex code for the box border (e.g., <code>#e74c3c</code>).</li>
-        <li><strong>Image URL</strong>: <em>(Optional)</em> URL for a profile picture.</li>
-        <li><strong>Additional Columns</strong>: Cell contents will appear as text on a new line within the box.</li>
-        <li><strong>Hidden Columns</strong>: Place an exclamation mark (<strong>!</strong>) at the beginning of a column header to hide its contents from the chart.</li>
-        <li>Any additional text starting with a <strong style="font-size: 18px;">#</strong> will be rendered as a special tag with a seeded color circle based on the text content.</li>
-    </ul>
-    <p><strong>Note</strong>: When pasting from Excel, ensure the compulsory headers are included in the top row exactly as above.</p>
+    <div class="h1">
+        <h1>Organogram Maker</h1>
+    </div>
+    <br />
+    <div id="organagram">
+        <svg id="org-lines-svg"></svg>
+        <div id="org-container"></div>
+    </div>
+    <div style="display: grid;grid-template-columns: max-content max-content max-content; gap: 30px; align-items: center;">
+        <div>
+            <select id="ChartType" name="chartTypes" onchange="refresh()">
+                <option value="0">Vertical Layout</option>
+                <option value="1">Horizontal Layout</option>
+            </select>
+        </div>
+        <div>
+            <select id="LineType" name="lineTypes" onchange="refresh()">
+                <option value="0">Vertical Lines</option>
+                <option value="1">Horizontal Lines</option>
+                <option value="2">Direct Lines</option>
+            </select>
+        </div>
+        <div>
+            <select id="AlignType" name="AlignTypes" onchange="refresh()">
+                <option value="0">Centred</option>
+                <option value="1">Start</option>
+                <option value="2">End</option>
+            </select>
+        </div>
+    </div>
+    <br />
+    <div style="display: grid; grid-template-columns: max-content max-content max-content max-content max-content; gap: 10px; align-items: center; ">
+        <button onclick="exportToPNG()">Save as PNG</button>
+        <button onclick="flip()">Flip Direction</button>
+        <button onclick="refresh()">Refresh chart</button>
+        <button url="https://buymeacoffee.com/organogrammaker">Buy me a coffee</button>
+        <button id="copyEmbedBtn">Copy Embed Code</button>
+    </div>
     <br />
 
+    <button class="accordion">Input Table Instructions + </button>
+    <div class="panel" style="display: none;">
+        <h3>Instructions for use</h3>
+        <p>
+            Ensure the table contains the following columns. Additional columns will be rendered on new lines inside the boxes.
+        </p>
 
-
+        <ul>
+            <li><strong>ID</strong>: <em>(Compulsory)</em> Unique identifier for the person.</li>
+            <li><strong>Parent ID</strong>: <em>(Compulsory)</em> The <strong>id</strong> of the direct supervisor.</li>
+            <li><strong>Name</strong>: <em>(Compulsory)</em> The display name shown in the box.</li>
+            <li><strong>Colour</strong>: <em>(Compulsory)</em> Hex code for the box border (e.g., <code>#e74c3c</code>).</li>
+            <li><strong>Image URL</strong>: <em>(Optional)</em> URL for a profile picture.</li>
+            <li><strong>Additional Columns</strong>: Cell contents will appear as text on a new line within the box.</li>
+            <li><strong>Hidden Columns</strong>: Place an exclamation mark (<strong>!</strong>) at the beginning of a column header to hide its contents from the chart.</li>
+            <li>Any additional text starting with a <strong style="font-size: 18px;">#</strong> will be rendered as a special tag with a seeded color circle based on the text content.</li>
+        </ul>
+        <p><strong>Note</strong>: When pasting from Excel it will attempt to replace the whole table so ensure the compulsory headers are included in the top row exactly as above.</p>
+    </div>
+    <br />
     <div class="table-wrapper">
         <table id="orgTable" border="1" cellpadding="6" cellspacing="0">
             <tbody>
@@ -326,7 +365,7 @@
     </div>
     <br />
     <br />
-    <div style="display: grid;grid-template-columns: max-content max-content max-content max-content; gap: 10px; align-items: center;">
+    <div style="display: grid; grid-template-columns: max-content max-content max-content max-content; gap: 30px; align-items: center; column-gap: 15px;">
         <label for="rowSelector">Select Row ID: </label>
         <select id="rowSelector">
         </select>
@@ -340,42 +379,15 @@
     </div>
     <br />
     <br />
-    <h3>Formatting</h3>
     <ul>
-        <p>Items can be dragged into different positions by clicking and dragging.</p>
-        <p>Tip: Press Ctrl and + to zoom in, or Ctrl and − to zoom out.</p>
+        <p>copyright CLL software 2026</p>
     </ul>
 
-    <div style="display: grid;grid-template-columns: max-content max-content; gap: 10px; align-items: center;">
-        <label for="ChartType">Choose a chart type:</label>
-        <select id="ChartType" name="chartTypes" onchange="refresh()">
-            <option value="0">Vertical</option>
-            <option value="1">Horizontal</option>
-        </select>
-
-        <label for="LineType">Choose a line type:</label>
-        <select id="LineType" name="lineTypes" onchange="refresh()">
-            <option value="0">Vertical</option>
-            <option value="1">Horizontal</option>
-            <option value="2">Direct</option>
-        </select>
-    </div>
-
     <br />
 
-    <div style="display: grid; grid-template-columns: max-content max-content max-content max-content max-content; gap: 10px; align-items: center; ">
-        <button onclick="exportToPNG()">Save as PNG</button>
-        <button onclick="flip()">Flip Direction</button>
-        <button onclick="refresh()">Refresh chart</button>
-        <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="OrganogramMaker" data-color="#5f8099" data-emoji="" data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#ffffff" data-font-color="#ffffff" data-coffee-color="#FFDD00"></script>
-        <button id="copyEmbedBtn">Copy Embed Code</button>
-    </div>
-    <br />
 
-    <div id="organagram">
-        <svg id="org-lines-svg"></svg>
-        <div id="org-container"></div>
-    </div>
+
+
 
     <script>
         let currentFlip = null;
@@ -400,31 +412,31 @@
             }
             if (desiredFlip === "y") {
                 styleEl.textContent = `
-                                                                #org-container {
-                                                                    transform: scaleY(-1);
-                                                                    transform-origin: center;
-                                                                }
-                                                                .org-box {
-                                                                    transform: scaleY(-1);
-                                                                }
-                                                                #org-lines-svg {
-                                                                    transform: scaleY(-1);
-                                                                }
-                                                            `;
+#org-container {
+                                    transform: scaleY(-1);
+                                    transform-origin: center;
+}
+.org-box {
+                                    transform: scaleY(-1);
+}
+#org-lines-svg {
+                                    transform: scaleY(-1);
+}
+`;
                 currentFlip = "y";
             } else if (desiredFlip === "x") {
                 styleEl.textContent = `
-                                                            #org-container {
-                                                                transform: scaleX(-1);
-                                                                transform-origin: center;
-                                                            }
-                                                            .org-box {
-                                                                transform: scaleX(-1);
-                                                            }
-                                                            #org-lines-svg {
-                                                                transform: scaleX(-1);
-                                                            }
-                                                        `;
+#org-container {
+                                    transform: scaleX(-1);
+                                    transform-origin: center;
+}
+.org-box {
+                                    transform: scaleX(-1);
+}
+#org-lines-svg {
+                                    transform: scaleX(-1);
+}
+`;
                 currentFlip = "x";
             } else {
                 styleEl.textContent = '';
@@ -468,12 +480,12 @@
                 const cssContent = `<style>\n${cssText}\n</style>`;
 
                 const jsScript = `<script type="module" src="https://cll-software.github.io/Organogram-Maker/Browser/Draggable.js"><\/script>
-                                                            <script>
-                                                                    window.addEventListener('DOMContentLoaded', () => {
-                                                                    window.drawElbowLines("org-lines-svg", "org-container");
-                                                                    window.initializeDragging("org-lines-svg", "org-container");
-                                                                    });
-                                                            <\/script>`;
+                                                                                            <script>
+                                                                                                    window.addEventListener('DOMContentLoaded', () => {
+                                                                                                    window.drawElbowLines("org-lines-svg", "org-container");
+                                                                                                    window.initializeDragging("org-lines-svg", "org-container");
+                                                                                                    });
+                                                                                            <\/script>`;
 
                 const embedCode = `${cssContent}\n${orgContent}\n${jsScript}`;
                 await navigator.clipboard.writeText(embedCode);
@@ -485,6 +497,21 @@
             }
         });
     </script>
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
 
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
+        }
+    </script>
 </body>
 </html>
