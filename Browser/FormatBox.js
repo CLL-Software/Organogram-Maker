@@ -51,7 +51,7 @@ export function formatBox(boxData, Boxes, Lines) {
 
             return `
             <div style="${style}" class="${CSSclass}">
-                <span style="width: 10px; height: 10px; background-color: ${color}; border-radius: 50%; display: inline-block;"></span>
+                <span style="width: 8px; height: 8px; background-color: ${color}; border-radius: 50%; display: inline-block; background: radial-gradient(circle, ${color} 30%, ${getLightColor(color, 0.1)}  60%);"></span>
                 <span style="padding-left: 3px;">${text}</span>
             </div>
         `;
@@ -72,19 +72,37 @@ export function formatBox(boxData, Boxes, Lines) {
     return container;
 }
 
-function getLightColor(hex, factor) {
-    hex = hex.replace('#', '');
+function getLightColor(color, factor) {
+    let r, g, b;
+    if (color.startsWith('#')) {
+        color = color.replace('#', '');
+        r = parseInt(color.substring(0, 2), 16);
+        g = parseInt(color.substring(2, 4), 16);
+        b = parseInt(color.substring(4, 6), 16);
+    }
+    else if (color.startsWith('rgb')) {
+        const regex = /rgb(a?)\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d\.]+))?\)/;
+        const match = color.match(regex);
+        if (match) {
+            r = parseInt(match[2]);
+            g = parseInt(match[3]);
+            b = parseInt(match[4]);
+        } else {
+            throw new Error('Invalid RGB or RGBA color format');
+        }
+    } else {
+        throw new Error('Invalid color format: Must be hex, rgb, or rgba');
+    }
 
-    let r = parseInt(hex.substring(0, 2), 16);
-    let g = parseInt(hex.substring(2, 4), 16);
-    let b = parseInt(hex.substring(4, 6), 16);
     r = Math.round(r + (255 - r) * factor);
     g = Math.round(g + (255 - g) * factor);
     b = Math.round(b + (255 - b) * factor);
+
     const toHex = (val) => val.toString(16).padStart(2, '0');
 
-    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    return `rgb(${r}, ${g}, ${b})`;
 }
+
 
 function getSeededColor(originalText) {
     const text = originalText.toLowerCase();

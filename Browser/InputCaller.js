@@ -9,6 +9,21 @@ export function refresh() {
     root.innerHTML = "";
     const orgData = loadOrgDataFromHtmlTable();
     root.appendChild(structureBoxes(orgData, chart, line));
+
+    const orgBoxes = document.querySelectorAll('.org-box');
+    let maxWidth = 0;
+
+    orgBoxes.forEach(box => {
+        const boxWidth = box.offsetWidth;
+        if (boxWidth > maxWidth) {
+            maxWidth = boxWidth;
+        }
+    });
+
+    orgBoxes.forEach(box => {
+        box.style.minWidth = `${maxWidth}px`;
+    });
+
     drawElbowLines("org-lines-svg", "org-container");
     initializeDragging("org-lines-svg", "org-container");
 }

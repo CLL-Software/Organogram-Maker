@@ -400,31 +400,31 @@
             }
             if (desiredFlip === "y") {
                 styleEl.textContent = `
-                                                            #org-container {
-                                                                transform: scaleY(-1);
-                                                                transform-origin: center;
-                                                            }
-                                                            .org-box {
-                                                                transform: scaleY(-1);
-                                                            }
-                                                            #org-lines-svg {
-                                                                transform: scaleY(-1);
-                                                            }
-                                                        `;
+                                                                #org-container {
+                                                                    transform: scaleY(-1);
+                                                                    transform-origin: center;
+                                                                }
+                                                                .org-box {
+                                                                    transform: scaleY(-1);
+                                                                }
+                                                                #org-lines-svg {
+                                                                    transform: scaleY(-1);
+                                                                }
+                                                            `;
                 currentFlip = "y";
             } else if (desiredFlip === "x") {
                 styleEl.textContent = `
-                                                        #org-container {
-                                                            transform: scaleX(-1);
-                                                            transform-origin: center;
-                                                        }
-                                                        .org-box {
-                                                            transform: scaleX(-1);
-                                                        }
-                                                        #org-lines-svg {
-                                                            transform: scaleX(-1);
-                                                        }
-                                                    `;
+                                                            #org-container {
+                                                                transform: scaleX(-1);
+                                                                transform-origin: center;
+                                                            }
+                                                            .org-box {
+                                                                transform: scaleX(-1);
+                                                            }
+                                                            #org-lines-svg {
+                                                                transform: scaleX(-1);
+                                                            }
+                                                        `;
                 currentFlip = "x";
             } else {
                 styleEl.textContent = '';
@@ -468,12 +468,12 @@
                 const cssContent = `<style>\n${cssText}\n</style>`;
 
                 const jsScript = `<script type="module" src="https://cll-software.github.io/Organogram-Maker/Browser/Draggable.js"><\/script>
-                                                        <script>
-                                                                window.addEventListener('DOMContentLoaded', () => {
-                                                                window.drawElbowLines("org-lines-svg", "org-container");
-                                                                window.initializeDragging("org-lines-svg", "org-container");
-                                                                });
-                                                        <\/script>`;
+                                                            <script>
+                                                                    window.addEventListener('DOMContentLoaded', () => {
+                                                                    window.drawElbowLines("org-lines-svg", "org-container");
+                                                                    window.initializeDragging("org-lines-svg", "org-container");
+                                                                    });
+                                                            <\/script>`;
 
                 const embedCode = `${cssContent}\n${orgContent}\n${jsScript}`;
                 await navigator.clipboard.writeText(embedCode);
