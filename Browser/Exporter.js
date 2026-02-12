@@ -23,6 +23,7 @@ export async function exportToPNG() {
     const organagram = document.getElementById('organagram');
     const zoom = org.style.zoom;
     org.style.zoom = 1;
+    organagram.style.width = "fit-content";
     organagram.style.maxWidth = "fit-content";
     drawElbowLines("org-lines-svg", "org-container", false);
     const boxes = document.querySelectorAll('.org-box');
@@ -60,6 +61,7 @@ export async function exportToPNG() {
     organagram.classList.remove('exporting');
     org.style.zoom = zoom;
     organagram.style.maxWidth = "1300px";
+    organagram.style.width = "1300px";
     drawElbowLines("org-lines-svg", "org-container",false);
 }
 

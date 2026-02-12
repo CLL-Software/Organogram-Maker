@@ -126,11 +126,11 @@ export function drawElbowLines(svgID, divID, png=false) {
 
             const stopStart = document.createElementNS(SVG_NS, "stop");
             stopStart.setAttribute("offset", "40%");
-            stopStart.setAttribute("stop-color", childCol);
+            stopStart.setAttribute("stop-color", parentCol);
 
             const stopEnd = document.createElementNS(SVG_NS, "stop");
             stopEnd.setAttribute("offset", "60%");
-            stopEnd.setAttribute("stop-color", parentCol);
+            stopEnd.setAttribute("stop-color", childCol);
 
             gradient.appendChild(stopStart);
             gradient.appendChild(stopEnd);

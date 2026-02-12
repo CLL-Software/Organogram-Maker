@@ -10,6 +10,7 @@
     background: #ffffff60;
     justify-self: center;
     width: 1300px;
+    padding-top: 50px;
 }
 
 #organagram.exporting {
@@ -40,7 +41,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    padding-top: 80px;
+    padding-top: 50px;
 }
 
 .org-level {

@@ -107,9 +107,14 @@ function getLightColor(color, factor) {
 function getSeededColor(originalText) {
     const text = originalText.toLowerCase();
     if (!text || text.length === 0) return 'rgb(128, 128, 128)';
-    const rSeed = text.charCodeAt(text.length-1);
-    const gSeed = text.charCodeAt(0);
-    const bSeed = text.charCodeAt(Math.floor(text.length / 2));
+    const bSeed = text.charCodeAt(text.length-1);
+    const gSeed = text.charCodeAt(Math.floor(text.length / 2));
+    let rSeed = 0;
+
+    for (let i = 0; i < text.length; i++) {
+        rSeed += text.charCodeAt(i) * 10 % 256;
+    }
+    rSeed = rSeed / (text.length);
 
     let hash = 0;
     for (let i = 0; i < text.length; i++) {
@@ -117,9 +122,14 @@ function getSeededColor(originalText) {
         hash |= 0;
     }
     hash = Math.abs(hash);
-    const r = (rSeed * hash) % 256;
-    const g = (gSeed * hash) % 256;
-    const b = (bSeed * hash) % 256;
+    let r = (rSeed * hash) % 256;
+    let g = (gSeed * hash) % 256;
+    let b = (bSeed * hash) % 256;
+
+    const factor = Math.max(100,Math.min(400, r + b + g)) / (r + b + g);
+    r = Math.round(r * factor);
+    g = Math.round(g * factor);
+    b = Math.round(b * factor);
 
     return `rgb(${r}, ${g}, ${b})`;
 }
