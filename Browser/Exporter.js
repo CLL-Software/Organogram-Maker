@@ -25,6 +25,8 @@ export async function exportToPNG() {
     org.style.zoom = 1;
     organagram.style.width = "fit-content";
     organagram.style.maxWidth = "fit-content";
+    organagram.style.paddingTop = "0px";
+
     drawElbowLines("org-lines-svg", "org-container", false);
     const boxes = document.querySelectorAll('.org-box');
     for (const box of boxes) {

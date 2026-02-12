@@ -36,114 +36,116 @@ export function drawElbowLines(svgID, divID, png=false) {
     const containerRect = container.getBoundingClientRect();
 
     boxes.forEach(childEl => {
-        const parentId = childEl.getAttribute('value');
-        if (!parentId) return;
+        // 1. Get the raw attribute and split it by comma
+        const parentIdAttr = childEl.getAttribute('value');
+        if (!parentIdAttr) return;
 
-        const parentEl = document.getElementById(parentId);
-        if (!parentEl) return;
+        // 2. Map over the split array to handle multiple parents
+        const parentIds = parentIdAttr.split(',').map(id => id.trim());
+        let i = 0;
+        // 3. Loop through each parent
+        parentIds.forEach(parentId => {
+            const parentEl = document.getElementById(parentId);
+            if (!parentEl) return;
 
-        const inputType = childEl.getAttribute('lineInput');
-        const outputType = parentEl.getAttribute('lineOutput');
-        const cRect = childEl.getBoundingClientRect();
-        const pRect = parentEl.getBoundingClientRect();
-        let startX = (pRect.left + pRect.width / 2) - containerRect.left;
-        let startY = ((pRect.top + pRect.bottom) * 0.5) - containerRect.top;
+            const inputType = childEl.getAttribute('lineInput');
+            const outputType = parentEl.getAttribute('lineOutput');
 
-        let endX = (cRect.left + cRect.width / 2) - containerRect.left;
-        let endY = ((cRect.top + cRect.bottom) * 0.5) - containerRect.top;
+            // ... (rest of your coordinate calculations remain the same)
+            const cRect = childEl.getBoundingClientRect();
+            const pRect = parentEl.getBoundingClientRect();
 
-        let bendXstart = startX;
-        let bendYstart = pRect.bottom - containerRect.top;
-        let bendXend = endX;
-        let bendYend = cRect.top - containerRect.top;
+            // Use container bounding rect calculated earlier in your function
+            let startX = (pRect.left + pRect.width / 2) - containerRect.left;
+            let startY = ((pRect.top + pRect.bottom) * 0.5) - containerRect.top;
 
-        const organagram = document.getElementById(divID);
-        const transform = getComputedStyle(organagram).transform;
-        const isFlippedX = transform.includes('matrix(-1, 0, 0, 1') || transform.includes('scaleX(-1)');
-        const isFlippedY = transform.includes('matrix(1, 0, 0, -1') || transform.includes('scaleY(-1)');
+            let endX = (cRect.left + cRect.width / 2) - containerRect.left;
+            let endY = ((cRect.top + cRect.bottom) * 0.5) - containerRect.top;
 
-        let parentCol = greyColor(parentEl.style.borderLeftColor);
-        let childCol = greyColor(childEl.style.borderLeftColor);
+            // ... (transform logic)
+            const organagram = document.getElementById(divID);
+            const transform = getComputedStyle(organagram).transform;
+            const isFlippedX = transform.includes('matrix(-1, 0, 0, 1') || transform.includes('scaleX(-1)');
+            const isFlippedY = transform.includes('matrix(1, 0, 0, -1') || transform.includes('scaleY(-1)');
 
-        if (png == true) { }
-        else if (isFlippedX) {
-            startX = fullWidth-startX;
-            endX = fullWidth - endX;
-        }
-        else if (isFlippedY) {
-            startY = fullHeight-startY;
-            endY = fullHeight-endY;
-        }
+            let parentCol = greyColor(parentEl.style.borderLeftColor);
+            let childCol = greyColor(childEl.style.borderLeftColor);
 
-
-        let pathData = "";
-        if (outputType === "bottom" && inputType === "top") {
-            const midY = bendYstart + (bendYend - bendYstart) / 2;
-            pathData = `M ${startX} ${startY} V ${midY} H ${endX} V ${endY}`;
-        }
-        else if (outputType === "bottom" && inputType === "side") {
-            pathData = `M ${startX} ${startY} V ${endY} H ${endX}`;
-        }
-        else if (outputType === "side" && inputType === "side") {
-            const midX = bendXstart + (bendXend - bendXstart) / 2;
-            pathData = `M ${startX} ${startY} H ${midX} V ${endY} H ${endX}`;
-        }
-        else if (outputType === "side" && inputType === "top") {
-            pathData = `M ${startX} ${startY} H ${endX} V ${endY}`;
-        }
-        else if (outputType === "side" && inputType === "direct") {
-            pathData = `M ${startX} ${startY} L ${endX} ${endY}`;
-        }
-        else if (outputType === "bottom" && inputType === "direct") {
-            pathData = `M ${startX} ${startY} L ${endX} ${endY}`;
-        }
-
-        if (pathData) {
-            const SVG_NS = "http://www.w3.org/2000/svg";
-
-            const path = document.createElementNS(SVG_NS, "path");
-            path.setAttribute("d", pathData);
-
-            // Ensure <defs> exists
-            let defs = svg.querySelector("defs");
-            if (!defs) {
-                defs = document.createElementNS(SVG_NS, "defs");
-                svg.appendChild(defs);
+            if (png == true) { }
+            else if (isFlippedX) {
+                startX = fullWidth - startX;
+                endX = fullWidth - endX;
+            }
+            else if (isFlippedY) {
+                startY = fullHeight - startY;
+                endY = fullHeight - endY;
             }
 
-            // Create unique gradient ID
-            const gradientId = "grad-" + Math.random().toString(36).substr(2, 9);
+            let pathData = "";
+            let midY = startY + (endY - startY) / 2;
+            let midX = startX + (endX - startX) / 2;
 
-            const gradient = document.createElementNS(SVG_NS, "linearGradient");
-            gradient.setAttribute("id", gradientId);
+            if (outputType === "bottom" && inputType === "top") {
+                pathData = `M ${startX} ${startY} V ${midY} H ${endX} V ${endY}`;
+            }
+            else if (outputType === "bottom" && inputType === "side") {
+                pathData = `M ${startX} ${startY} V ${endY} H ${endX}`;
+            }
+            else if (outputType === "side" && inputType === "side") {
+                pathData = `M ${startX} ${startY} H ${midX} V ${endY} H ${endX}`;
+            }
+            else if (outputType === "side" && inputType === "top") {
+                pathData = `M ${startX} ${startY} H ${endX} V ${endY}`;
+            }
+            else {
+                pathData = `M ${startX} ${startY} L ${endX} ${endY}`;
+            }
 
-            // Make gradient follow actual path direction
-            gradient.setAttribute("gradientUnits", "userSpaceOnUse");
-            gradient.setAttribute("x1", startX);
-            gradient.setAttribute("y1", startY);
-            gradient.setAttribute("x2", endX);
-            gradient.setAttribute("y2", endY);
+            // ... (SVG creation logic - stays largely the same)
+            if (pathData) {
+                const SVG_NS = "http://www.w3.org/2000/svg";
+                const path = document.createElementNS(SVG_NS, "path");
+                path.setAttribute("d", pathData);
 
-            const stopStart = document.createElementNS(SVG_NS, "stop");
-            stopStart.setAttribute("offset", "40%");
-            stopStart.setAttribute("stop-color", parentCol);
+                let defs = svg.querySelector("defs");
+                if (!defs) {
+                    defs = document.createElementNS(SVG_NS, "defs");
+                    svg.appendChild(defs);
+                }
 
-            const stopEnd = document.createElementNS(SVG_NS, "stop");
-            stopEnd.setAttribute("offset", "60%");
-            stopEnd.setAttribute("stop-color", childCol);
+                const gradientId = "grad-" + Math.random().toString(36).substr(2, 9);
+                const gradient = document.createElementNS(SVG_NS, "linearGradient");
+                gradient.setAttribute("id", gradientId);
+                gradient.setAttribute("gradientUnits", "userSpaceOnUse");
+                gradient.setAttribute("x1", startX);
+                gradient.setAttribute("y1", startY);
+                gradient.setAttribute("x2", endX);
+                gradient.setAttribute("y2", endY);
 
-            gradient.appendChild(stopStart);
-            gradient.appendChild(stopEnd);
-            defs.appendChild(gradient);
+                const stopStart = document.createElementNS(SVG_NS, "stop");
+                stopStart.setAttribute("offset", "40%");
+                stopStart.setAttribute("stop-color", parentCol);
 
-            // Apply gradient stroke
-            path.setAttribute("stroke", `url(#${gradientId})`);
-            path.setAttribute("stroke-width", "3");
-            path.setAttribute("fill", "none");
+                const stopEnd = document.createElementNS(SVG_NS, "stop");
+                stopEnd.setAttribute("offset", "60%");
+                stopEnd.setAttribute("stop-color", childCol);
 
-            svg.appendChild(path);
-        }
+                gradient.appendChild(stopStart);
+                gradient.appendChild(stopEnd);
+                defs.appendChild(gradient);
 
+                path.setAttribute("stroke", `url(#${gradientId})`);
+                path.setAttribute("stroke-width", "4");
+                if (i > 0) {
+                    path.setAttribute("stroke-dasharray", "1px 8px");
+                    path.setAttribute("stroke-linecap", "round");
+                }
+                path.setAttribute("fill", "none");
+
+                svg.appendChild(path);
+            }
+            i++;
+        }); // End of parentIds loop
     });
 }
 window.drawElbowLines = drawElbowLines;

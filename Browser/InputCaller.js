@@ -25,8 +25,39 @@ export function refresh() {
         }
     });
 
+    if (chart === "0") {
+        const rowGroups = {};
+
+        orgBoxes.forEach(box => {
+            const rowAttr = box.getAttribute('row');
+            if (rowAttr === null) return;
+
+            if (!rowGroups[rowAttr]) {
+                rowGroups[rowAttr] = [];
+            }
+            rowGroups[rowAttr].push(box);
+        });
+
+        for (const rowId in rowGroups) {
+            const boxesInRow = rowGroups[rowId];
+            let maxRowHeight = 0;
+            boxesInRow.forEach(box => {
+                box.style.height = 'auto';
+                if (box.offsetHeight > maxRowHeight) {
+                    maxRowHeight = box.offsetHeight - 20;
+                }
+            });
+            boxesInRow.forEach(box => {
+                box.style.height = `${maxRowHeight}px`;
+            });
+        }
+    }
+
     orgBoxes.forEach(box => {
         box.style.minWidth = `${maxWidth}px`;
+        box.style.marginLeft = `${maxWidth * 0.2}px`
+        const h = box.getBoundingClientRect().height;
+        box.style.marginTop = `${h * 0.4}px`
     });
 
     const org = document.getElementById("organagram");

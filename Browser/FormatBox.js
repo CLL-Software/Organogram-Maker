@@ -1,4 +1,4 @@
-export function formatBox(boxData, Boxes, Lines) {
+export function formatBox(boxData, Boxes, Lines, Row) {
     const { id, parent, colour, name, image, lines } = boxData;
 
     const container = document.createElement('div');
@@ -6,6 +6,7 @@ export function formatBox(boxData, Boxes, Lines) {
 
     container.id = id;
     container.setAttribute('value', parent === null ? "" : parent);
+    container.setAttribute('row', Row);
     if ((Boxes == 1) && (Lines == 1)) {
         container.setAttribute('lineOutput', "side");
         container.setAttribute('lineInput', "side");
