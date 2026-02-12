@@ -2,14 +2,14 @@
 #organagram {
     border: 2px solid #5f8099;
     border-radius: 15px;
-    width: fit-content;
     margin-top: 10px;
     margin-bottom: 10px;
     overflow: clip;
     text-wrap: nowrap;
     color: #1a1a1a;
     background: #ffffff60;
-    max-width: 1300px;
+    justify-self: center;
+    width: 1300px;
 }
 
 #organagram.exporting {
@@ -21,8 +21,7 @@
 
 #org-container {
     width: fit-content;
-    padding-bottom: 50px;
-    padding-top: 50px;
+    padding-bottom: 100px;
 }
 
 .org-box {
@@ -41,7 +40,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    padding-top: 50px;
+    padding-top: 80px;
 }
 
 .org-level {
@@ -80,4 +79,12 @@
 
 .start{
     align-items: flex-start;
+}
+
+path {
+    stroke-linejoin: round;
+}
+
+svg{
+    overflow: hidden;
 }

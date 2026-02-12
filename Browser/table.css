@@ -1,5 +1,8 @@
 /* General table styling */
 .table-wrapper {
+    justify-self: safe center;
+    width: 100%;
+    max-width: 1300px;
 }
 
 table {
@@ -75,10 +78,6 @@ table {
     transition: all 0.3s ease-in-out;
 }
 
-.table-wrapper {
-    position: relative;
-    display: inline-block;
-}
 
 .add-column {
     position: absolute;

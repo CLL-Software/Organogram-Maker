@@ -3,19 +3,16 @@ body {
     background: white;
     color: #333;
     font-family: 'Segoe UI Variable Display';
-    overflow-x: auto; /* or scroll */
-    min-height: 100vh;
-    display: flex;
-    justify-content: center; /* vertical if column */
 }
 
 .items{
     justify-self: center;
 }
 .main {
-    margin-top: 100px;
-    max-width: 100%;
-    margin-inline: auto;
+    margin-left: 25px;
+    margin-right: 25px;
+    width: calc(100% - 50px);
+    min-width: 1300px;
 }
 button, select {
     border: 1px solid #5f8099;
@@ -63,12 +60,11 @@ h1 {
     padding-left: 30px;
 }
 .h1 {
-    width: 100%;
+    width: 100cqw;
     background: #5f8099;
     overflow: clip;
-    width: -webkit-fill-available;
-    width: -moz-fit-content;
-    position: absolute;
+    padding-bottom: 20px;
+    min-width: 1350px;
 }
 
 .panel {
