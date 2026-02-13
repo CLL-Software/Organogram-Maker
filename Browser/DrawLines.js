@@ -76,9 +76,21 @@ export function drawElbowLines(svgID, divID, png=false) {
                 endY = fullHeight - endY;
             }
 
+            let midY = 0;
+            let midX = 0;
+            if (true) {
+                let _startX = (pRect.left) - containerRect.left;
+                let _startY = (pRect.bottom) - containerRect.top;
+
+                let _endX = (cRect.right) - containerRect.left;
+                let _endY = (cRect.top) - containerRect.top;
+
+
+                midY = _startY + (_endY - _startY) / 2;
+                midX = _startX + (_endX - _startX) / 2;
+            }
+
             let pathData = "";
-            let midY = pRect.bottom + (cRect.top - pRect.bottom) / 2;
-            let midX = pRect.right + (cRect.left - pRect.right) / 2;
 
             if (outputType === "bottom" && inputType === "top") {
                 pathData = `M ${startX} ${startY} V ${midY} H ${endX} V ${endY}`;
