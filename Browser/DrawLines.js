@@ -36,14 +36,12 @@ export function drawElbowLines(svgID, divID, png=false) {
     const containerRect = container.getBoundingClientRect();
 
     boxes.forEach(childEl => {
-        // 1. Get the raw attribute and split it by comma
         const parentIdAttr = childEl.getAttribute('value');
         if (!parentIdAttr) return;
 
-        // 2. Map over the split array to handle multiple parents
         const parentIds = parentIdAttr.split(',').map(id => id.trim());
         let i = 0;
-        // 3. Loop through each parent
+
         parentIds.forEach(parentId => {
             const parentEl = document.getElementById(parentId);
             if (!parentEl) return;
@@ -51,18 +49,15 @@ export function drawElbowLines(svgID, divID, png=false) {
             const inputType = childEl.getAttribute('lineInput');
             const outputType = parentEl.getAttribute('lineOutput');
 
-            // ... (rest of your coordinate calculations remain the same)
             const cRect = childEl.getBoundingClientRect();
             const pRect = parentEl.getBoundingClientRect();
 
-            // Use container bounding rect calculated earlier in your function
             let startX = (pRect.left + pRect.width / 2) - containerRect.left;
             let startY = ((pRect.top + pRect.bottom) * 0.5) - containerRect.top;
 
             let endX = (cRect.left + cRect.width / 2) - containerRect.left;
             let endY = ((cRect.top + cRect.bottom) * 0.5) - containerRect.top;
 
-            // ... (transform logic)
             const organagram = document.getElementById(divID);
             const transform = getComputedStyle(organagram).transform;
             const isFlippedX = transform.includes('matrix(-1, 0, 0, 1') || transform.includes('scaleX(-1)');
@@ -82,8 +77,8 @@ export function drawElbowLines(svgID, divID, png=false) {
             }
 
             let pathData = "";
-            let midY = startY + (endY - startY) / 2;
-            let midX = startX + (endX - startX) / 2;
+            let midY = pRect.bottom + (cRect.top - pRect.bottom) / 2;
+            let midX = pRect.right + (cRect.left - pRect.right) / 2;
 
             if (outputType === "bottom" && inputType === "top") {
                 pathData = `M ${startX} ${startY} V ${midY} H ${endX} V ${endY}`;
@@ -101,7 +96,6 @@ export function drawElbowLines(svgID, divID, png=false) {
                 pathData = `M ${startX} ${startY} L ${endX} ${endY}`;
             }
 
-            // ... (SVG creation logic - stays largely the same)
             if (pathData) {
                 const SVG_NS = "http://www.w3.org/2000/svg";
                 const path = document.createElementNS(SVG_NS, "path");
@@ -145,7 +139,7 @@ export function drawElbowLines(svgID, divID, png=false) {
                 svg.appendChild(path);
             }
             i++;
-        }); // End of parentIds loop
+        });
     });
 }
 window.drawElbowLines = drawElbowLines;
